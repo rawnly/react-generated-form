@@ -17,7 +17,7 @@ Unde the hood this packages uses `react-hook-form` to validate components
 
 ## Usage
 ```tsx
-import JSONForm, { JSONFormStructure } from 'react-generated-form'
+import { GeneratedForm, FormStructure } from 'react-generated-form'
 import { useForm, FormProvider } from 'react-hook-form'
 
 type FormData = {
@@ -27,7 +27,7 @@ type FormData = {
   password: string;
 }
 
-const formStructure : JSONFormStructure<FormData> = [
+const formStructure : FormStructure<FormData> = [
   // Section 1, Name and Surname
   [
     {
@@ -100,7 +100,7 @@ const formStructure : JSONFormStructure<FormData> = [
     return (
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <FormProvider {...methods}>
-          <JSONForm<FormData> structure={formStructure}>
+          <GeneratedForm<FormData> structure={formStructure}>
         </FormProvider>
 
         <div className='form-group'>
