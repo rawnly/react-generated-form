@@ -1,5 +1,5 @@
 <!-- omit in toc -->
-# React JSON Form
+# React JSON Form (ALPHA)
 > Create forms with ease
 
 <!-- omit in toc -->
