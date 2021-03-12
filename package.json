@@ -7,6 +7,10 @@
     "prebuild": "rm -rf dist",
     "build": "rollup -c"
   },
+  "repository": {
+    "tpye": "git",
+    "url": "https://github.com/rawnly/react-generated-form.git"
+  },
   "dependencies": {
     "@buttercup/react-formatted-input": "^1.4.0",
     "@hookform/error-message": "^0.0.5",

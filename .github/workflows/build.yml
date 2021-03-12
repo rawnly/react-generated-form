@@ -30,6 +30,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         registry-url: 'https://npm.pkg.github.com'
+        scope: '@rawnly'
 
     - name: Install dependencies ${{ steps.version.outputs.version }}
       id: install
