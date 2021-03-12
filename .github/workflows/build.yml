@@ -13,7 +13,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
 
@@ -23,6 +22,8 @@ jobs:
         node-version: '12.x'
         registry-url: 'https://npm.pkg.github.com'
         scope: '@Rawnly'
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Install, Build and Publish
       id: install
@@ -35,7 +36,5 @@ jobs:
     - name: Publish
       id: publish
       run: yarn publish
-      # if: github.event_name == 'release'
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        CI: true
