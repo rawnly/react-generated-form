@@ -1,12 +1,10 @@
 name: Publish to GithubPackages
 on:
-  release:
-    types:
-      - "created"
   pull_request:
   push:
     branches:
-      - '**'
+      - 'master'
+      - 'devel'
     tags:
       - 'v*.*.*'
 
