@@ -1,0 +1,47 @@
+name: Publish to GithubPackages
+on:
+  release:
+    types:
+      - "created"
+  pull_request:
+  push:
+    branches:
+      - '**'
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Get Package Version
+      id: version
+      run: |
+        VERSION=$(cat package.json | grep -Eo '"version":\s"(\d\.\d\.\d)"' | sed 's/"version"://g' | sed 's/"//g')
+        echo ::set-output name=version::${VERSION}
+
+    - name: Using Node ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+        registry-url: 'https://npm.pkg.github.com'
+
+    - name: Install dependencies ${{ steps.version.outputs.version }}
+      id: install
+      run: npm ci
+
+    - name: Build Project
+      id: build
+      run: npm run build --if-present
+
+    - name: Publish
+      id: publish
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        CI: true
