@@ -17,7 +17,7 @@ Unde the hood this packages uses `react-hook-form` to validate components
 
 ## Usage
 ```tsx
-import JSONForm, { JSONFormStructure } from '@react-json-form/json-form'
+import JSONForm, { JSONFormStructure } from 'react-generated-form'
 import { useForm, FormProvider } from 'react-hook-form'
 
 type FormData = {
