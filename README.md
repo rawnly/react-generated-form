@@ -4,16 +4,14 @@
 
 <!-- omit in toc -->
 ### Table of Contents
-- [Why](#why)
 - [Under The Hood](#under-the-hood)
 - [Usage](#usage)
-- [Packages](#packages)
 - [Contributing](#contributing)
 
-## Why
+
 
 ## Under The Hood
-Unde the hood this packages uses `react-hook-form` to validate components
+Unde the hood this packages uses `react-hook-form` to validate components and bootstrap for the style.
 
 ## Usage
 ```tsx
@@ -114,9 +112,6 @@ const formStructure : FormStructure<FormData> = [
 ]
 ```
 
-## Packages
-- [Field](/packages/Field) - The core of the project
-- [JSONForm](/packages/JSONForm) - The builder
 
 ## Contributing
 > SOON
