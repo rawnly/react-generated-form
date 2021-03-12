@@ -13,36 +13,28 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
 
     steps:
     - uses: actions/checkout@v2
-    - name: Get Package Version
-      id: version
-      run: |
-        VERSION=$(cat package.json | grep -Eo '"version":\s"(\d\.\d\.\d)"' | sed 's/"version"://g' | sed 's/"//g')
-        echo ::set-output name=version::${VERSION}
 
-    - name: Using Node ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
+    # Setup .npmrc fiel to publish to GitHub Packages
+    - uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '12.x'
         registry-url: 'https://npm.pkg.github.com'
-        scope: '@rawnly'
+        scope: '@Rawnly'
 
-    - name: Install dependencies ${{ steps.version.outputs.version }}
+    - name: Install, Build and Publish
       id: install
-      run: npm install
+      run: yarn
 
     - name: Build Project
       id: build
-      run: npm run build --if-present
+      run: yarn build
 
     - name: Publish
       id: publish
-      run: npm publish
+      run: yarn publish
       # if: github.event_name == 'release'
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
