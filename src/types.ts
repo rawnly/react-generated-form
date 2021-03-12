@@ -32,10 +32,10 @@ export interface CommonFieldProps {
 
 	// react-hook-form validation options.
 	validation?: {
-		min: ValidationRule<number | string>;
-    max: ValidationRule<number | string>;
-    maxLength: ValidationRule<number | string>;
-    minLength: ValidationRule<number | string>;
+		min?: ValidationRule<number | string>;
+    max?: ValidationRule<number | string>;
+    maxLength?: ValidationRule<number | string>;
+    minLength?: ValidationRule<number | string>;
 	};
 
 	// if true the input will be readonly
