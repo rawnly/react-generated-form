@@ -26,7 +26,7 @@ jobs:
         echo ::set-output name=version::${VERSION}
 
     - name: Using Node ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
         registry-url: 'https://npm.pkg.github.com'
@@ -43,6 +43,7 @@ jobs:
     - name: Publish
       id: publish
       run: npm publish
+      # if: github.event_name == 'release'
       env:
         NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         CI: true
