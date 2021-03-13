@@ -1,7 +1,6 @@
 import { FormattedInput } from "@buttercup/react-formatted-input";
 import React, { FC } from "react";
-import { useFormContext, Controller } from 'react-hook-form';
-import { Validate } from 'react-hook-form-input/dist/types';
+import { useFormContext, Controller, Validate } from 'react-hook-form';
 import { CommonFieldProps } from '../../types';
 import { getDefaultRequiredText } from '../../utils';
 

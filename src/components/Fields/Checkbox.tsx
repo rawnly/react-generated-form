@@ -1,11 +1,11 @@
 import React, { FC } from "react";
-import { useFormContext } from 'react-hook-form';
-import { Validate, ValidationOptionObject } from 'react-hook-form-input/dist/types';
+
+import { useFormContext, Validate, ValidationRule } from 'react-hook-form';
 import { CommonFieldProps } from '../../types';
 import cx from 'classnames'
 
 interface ICheckBoxProps extends CommonFieldProps {
-  defaultValidation: ValidationOptionObject<RegExp>;
+  defaultValidation: ValidationRule<RegExp>;
   validateFunc: Validate | Record<string, Validate> | {
     value: Validate | Record<string, Validate>;
     message: string;

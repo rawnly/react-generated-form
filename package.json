@@ -17,7 +17,6 @@
     "@hookform/error-message": "^0.0.5",
     "classnames": "^2.2.6",
     "react-google-places-autocomplete": "^3.2.3",
-    "react-hook-form-input": "^1.1.10",
     "type-fest": "^0.21.3"
   },
   "peerDependencies": {

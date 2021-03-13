@@ -1,13 +1,13 @@
 import React, { FC } from "react";
-import { useFormContext } from 'react-hook-form';
-import { Validate, ValidationOptionObject } from 'react-hook-form-input/dist/types';
+import { useFormContext, Validate, ValidationRule } from 'react-hook-form';
+
 
 import { SelectFieldProps } from '../../types';
 import { getDefaultRequiredText } from '../../utils';
 
 interface ISelectInputProps extends SelectFieldProps {
   className?: string;
-  defaultValidation: ValidationOptionObject<RegExp>;
+  defaultValidation: ValidationRule<RegExp>;
   validateFunc: Validate | Record<string, Validate>
 }
 
