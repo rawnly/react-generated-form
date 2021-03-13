@@ -12,7 +12,7 @@ import CheckBox from './Fields/Checkbox';
 import FieldLabel from './Fields/FieldLabel'
 import SelectInput from './Fields/SelectInput';
 import CoordinatesInput from './Fields/CoordinatesInput';
-// import TimeInput from './components/TimeInput';
+import TimeInput from './Fields/TimeInput';
 
 export type FieldProps = CommonFieldProps | CoordsFieldProps | SelectFieldProps;
 
@@ -85,12 +85,12 @@ export const Field: FC<FieldProps> = ( props ) => {
       )}
 
       {/* Time Component */}
-      {/* {props.type === 'time' && (
+      {props.type === 'time' && (
         <TimeInput
           validateFunc={validateFunc}
           {...props}
         />
-      )} */}
+      )}
 
       {/* Textarea */}
       {props.type === 'textarea' && (
