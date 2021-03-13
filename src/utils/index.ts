@@ -9,6 +9,7 @@ export const needManualRegister = ( type: FieldType ) =>
 
 export const getDefaultRequiredText = ( label: string ) =>
   `The field "${label}" is required.`
+
 export const isSpecialType = ( type: FieldType ): type is SpecialType =>
   ['checkbox', 'coords', 'select', 'textarea', 'time'].indexOf( type ) >= 0
 
