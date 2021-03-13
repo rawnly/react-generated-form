@@ -9,23 +9,26 @@ interface ICoordinatesInputProps extends Except<CoordsFieldProps, 'className'> {
   className?: ClassValue;
 }
 
-const CoordinatesInput: FC<ICoordinatesInputProps> = ( { className, ...props } ) => {
+const CoordinatesInput: FC<ICoordinatesInputProps> = ( {
+  className,
+  options = {
+    debounce: 250,
+  },
+  ...props
+} ) => {
   const { setValue } = useFormContext()
 
   return (
     <GooglePlacesInput
       key={props.name}
       apiKey={props.googleApiKey}
-      debounce={250}
-      autocompletionRequest={{
-        componentRestrictions: {
-          country: ['it']
-        },
-        ...( props.options || {} ),
-      }}
+      debounce={options?.debounce}
+      minLengthAutocomplete={options?.minLengthAutocomplete}
+      autocompletionRequest={options?.autoCompletitionRequest}
+      onLoadFailed={options?.onFail}
       selectProps={{
-        name,
         className,
+        name: props.name,
         onChange: async ( { value: { place_id } } ) => {
           try {
             const res = await geocodeByPlaceId( place_id )

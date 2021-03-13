@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "prebuild": "rm -rf dist && npm run test",
+    "prebuild": "rm -rf dist",
     "build": "rollup -c",
     "test": "jest"
   },
@@ -17,7 +17,6 @@
     "@hookform/error-message": "^0.0.5",
     "classnames": "^2.2.6",
     "react-google-places-autocomplete": "^3.2.3",
-    "react-hook-form-input": "^1.1.10",
     "type-fest": "^0.21.3"
   },
   "peerDependencies": {
@@ -26,6 +25,7 @@
     "react-hook-form": "^6.15.4"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.1.0",
     "@types/classnames": "^2.2.11",
     "@types/enzyme": "^3.10.8",
     "@types/enzyme-adapter-react-16": "^1.0.6",

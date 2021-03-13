@@ -1,17 +1,14 @@
 import React, { FC } from "react";
-import { RHFInput } from 'react-hook-form-input'
-import { useFormContext } from 'react-hook-form';
-import { Validate, ValidationOptionObject } from 'react-hook-form-input/dist/types';
+import { useFormContext, Validate, ValidationRule } from 'react-hook-form';
+
 
 import { SelectFieldProps } from '../../types';
+import { getDefaultRequiredText } from '../../utils';
 
 interface ISelectInputProps extends SelectFieldProps {
   className?: string;
-  defaultValidation: ValidationOptionObject<RegExp>;
-  validateFunc: Validate | Record<string, Validate> | {
-    value: Validate | Record<string, Validate>;
-    message: string;
-  };
+  defaultValidation: ValidationRule<RegExp>;
+  validateFunc: Validate | Record<string, Validate>
 }
 
 const SelectInput: FC<ISelectInputProps> = ( {
@@ -30,36 +27,33 @@ const SelectInput: FC<ISelectInputProps> = ( {
   const { register } = useFormContext()
 
   return (
-    <RHFInput
-      name={name}
-      register={register}
-      rules={{
+    <select
+      ref={register( {
         pattern,
         validate,
         ...validation,
-        required: required && `The field "${label}" is required.`,
-      } as any} as={
-        <select
-          id={name}
-          autoComplete={autocomplete}
-          style={{
-            ...style,
-            appearance: 'none'
-          }}
-          className={className}
-        >
-          {placeholder && (
-            <option value={placeholder} disabled>
-              {placeholder}
-            </option>
-          )}
+        required: required && getDefaultRequiredText( label )
+      } )}
+      id={name}
+      name={name}
+      className={className}
+      autoComplete={autocomplete}
+      style={{
+        ...style,
+        appearance: 'none'
+      }}
+    >
+      {placeholder && (
+        <option value={placeholder} disabled>
+          {placeholder}
+        </option>
+      )}
 
-          {( options ?? [] ).map( ( { label, value } ) => (
-            <option key={value} value={value} title={label}>{label}</option>
-          ) )}
-        </select>
-      } />
-  );
+      {( options ?? [] ).map( ( { label, value } ) => (
+        <option key={value} value={value} title={label}>{label}</option>
+      ) )}
+    </select>
+  )
 }
 
 export default SelectInput;
