@@ -1,26 +1,25 @@
 import { FormattedInput } from "@buttercup/react-formatted-input";
 import React, { FC } from "react";
-import { useFormContext } from 'react-hook-form';
-import { RHFInput } from 'react-hook-form-input';
-import { Validate } from 'react-hook-form-input/dist/types';
+import { useFormContext, Controller, Validate } from 'react-hook-form';
 import { CommonFieldProps } from '../../types';
+import { getDefaultRequiredText } from '../../utils';
 
 
 interface ITimeInputProps extends CommonFieldProps {
-  validateFunc: Validate | Record<string, Validate> | {
-    value: Validate | Record<string, Validate>;
-    message: string;
-  };
+  validateFunc: Validate | Record<string, Validate>;
 }
 
 const TimeInput: FC<ITimeInputProps> = ( { validateFunc: validate, ...props } ) => {
-  // Do your stuff here,
-  const { register } = useFormContext()
+  const { control } = useFormContext()
 
   return (
-    <RHFInput
+    <Controller
       name={props.name}
-      register={register}
+      control={control}
+      rules={{
+        validate,
+        required: props.required && getDefaultRequiredText( props.label ),
+      }}
       as={
         <FormattedInput
           type={'text'}
@@ -42,10 +41,6 @@ const TimeInput: FC<ITimeInputProps> = ( { validateFunc: validate, ...props } ) 
           ]}
         />
       }
-      rules={{
-        validate,
-        required: props.required && `The field "${props.label}" is required.`,
-      }}
     />
   );
 }
