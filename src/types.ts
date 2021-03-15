@@ -1,7 +1,7 @@
 import { Except } from 'type-fest'
 import { ClassValue } from 'classnames/types'
 import { CSSProperties } from 'react'
-import { ValidationRule } from 'react-hook-form';
+import { Validate, ValidationRule } from 'react-hook-form';
 import { AutocompletionRequest } from 'react-google-places-autocomplete/build/GooglePlacesAutocomplete.types';
 
 type CommonFieldType = 'address'
@@ -39,6 +39,12 @@ export interface CommonFieldProps {
     minLength?: ValidationRule<number | string>;
 	};
 
+	// react-hook-form validate
+	validate?:  Validate | Record<string, Validate> | {
+    value: Validate | Record<string, Validate>;
+    message: string;
+	}
+
 	// if true the input will be readonly
 	readOnly?: boolean;
 
@@ -63,16 +69,14 @@ export interface CommonFieldProps {
 
 export interface CoordsFieldProps extends Except<CommonFieldProps, 'type'> {
 	type: 'coords';
-
 	googleApiKey: string;
-
+	onResult?: ( props: CoordsFieldProps, value: any, setValue: ( key: string, val: any ) => void ) => void;
 	options?: {
 		debounce?: number;
 		minLengthAutocomplete?: number;
 		autoCompletitionRequest?: AutocompletionRequest
 		onFail?: (error: Error) => void;
-	},
-	onResult?: ( props: CoordsFieldProps, value: any, setValue: ( key: string, val: any ) => void ) => void;
+	};
 }
 
 export interface SelectFieldProps extends Except<CommonFieldProps, 'type'> {
