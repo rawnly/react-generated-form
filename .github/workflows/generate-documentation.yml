@@ -14,13 +14,13 @@ jobs:
           node-version: '12.x'
       - name: Build Docs
         env:
-          NODE_ENV: 'production'
           ASSET_PREFIX: '/react-generated-form'
         run: |
           cd docs
           yarn
           yarn build
-          yarn export
+      - name: export
+        run:  yarn export
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
