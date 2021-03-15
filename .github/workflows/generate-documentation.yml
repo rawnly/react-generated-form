@@ -20,7 +20,7 @@ jobs:
           yarn export
 
       - name: Deploy to gh-pages
-        uses: paeceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: './docs/out'
