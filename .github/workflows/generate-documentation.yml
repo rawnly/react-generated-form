@@ -19,8 +19,7 @@ jobs:
           cd docs
           yarn
           yarn build
-      - name: export
-        run:  yarn export
+          yarn export
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
