@@ -15,6 +15,7 @@
   "dependencies": {
     "@buttercup/react-formatted-input": "^1.4.0",
     "@hookform/error-message": "^0.0.5",
+    "bootstrap": "^4.6.0",
     "classnames": "^2.2.6",
     "react-google-places-autocomplete": "^3.2.3",
     "type-fest": "^0.21.3"
@@ -37,7 +38,6 @@
     "enzyme-adapter-react-16": "^1.15.6",
     "enzyme-to-json": "^3.6.1",
     "jest": "^26.6.3",
-    "react": "16.8",
     "react-dom": "^17.0.1",
     "react-hook-form": "^6.15.4",
     "rollup": "^2.41.2",

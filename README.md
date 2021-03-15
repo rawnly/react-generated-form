@@ -5,6 +5,7 @@
 <!-- omit in toc -->
 ### Table of Contents
 - [Under The Hood](#under-the-hood)
+- [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
 
@@ -12,6 +13,17 @@
 
 ## Under The Hood
 Unde the hood this packages uses `react-hook-form` to validate components and bootstrap for the style.
+
+
+## Installation
+
+```sh
+  npm install react-generateed-form
+
+  # or
+
+  yarn add react-generated-form
+```
 
 ## Usage
 ```tsx
