@@ -13,6 +13,9 @@ jobs:
         with:
           node-version: '12.x'
       - name: Build Docs
+        env:
+          NODE_ENV: 'production'
+          ASSET_PREFIX: '/react-generated-form'
         run: |
           cd docs
           yarn
