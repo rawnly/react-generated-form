@@ -13,13 +13,18 @@ import FieldLabel from './Fields/FieldLabel'
 import SelectInput from './Fields/SelectInput';
 import CoordinatesInput from './Fields/CoordinatesInput';
 import TimeInput from './Fields/TimeInput';
+import { GeneratedFormClassNames } from './GeneratedForm';
+import { Except } from 'type-fest';
 
-export type FieldProps = CommonFieldProps | CoordsFieldProps | SelectFieldProps;
+export type FieldProps = ( CommonFieldProps | SelectFieldProps | CoordsFieldProps )
 
 const CONFIRM_REGEX = /_confirm$|^confirm_/gi
 
+type Props = FieldProps & {
+  classNames: Except<GeneratedFormClassNames, 'inputGroup' | 'row'>
+}
 
-export const Field: FC<FieldProps> = ( props ) => {
+export const Field: FC<Props> = ( { classNames, ...props } ) => {
   const { register, errors, unregister } = useFormContext();
 
   let validateFunc;
@@ -55,15 +60,14 @@ export const Field: FC<FieldProps> = ( props ) => {
   }, [] )
 
   const inputClassNames = cx(
-    props.className,
-    'generatedForm__input'
+    props.className
   )
 
   return (
-    <div className='generatedForm__group'>
+    <>
       {/* Display label if no checkbox */}
       {props.type !== 'checkbox' && (
-        <FieldLabel {...props} />
+        <FieldLabel {...props} className={classNames.label} />
       )}
 
       {/* Coords Component */}
@@ -143,12 +147,12 @@ export const Field: FC<FieldProps> = ( props ) => {
       )}
 
       {!errors[props.name]
-        ? !props.noHint && <small className='generatedForm__hint'>{props.hint || <>&nbsp;</>}</small>
+        ? !props.noHint && <small className={cx( classNames.hint )}>{props.hint || <>&nbsp;</>}</small>
         : (
-          <small className='generatedForm__error'>
+          <small className={cx( classNames.error )}>
             <ErrorMessage errors={errors} name={props.name} />
           </small>
         )}
-    </div>
+    </>
   );
 }

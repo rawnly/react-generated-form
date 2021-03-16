@@ -20,3 +20,6 @@ export const isTrue =  ( values, check ) =>
     : typeof check === 'string'
       ? !!values[check]
       : check
+
+
+export const buildSizeClassName = (template: string, size: number) => template.replace('$', `${size}`)

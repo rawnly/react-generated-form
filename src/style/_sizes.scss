@@ -9,25 +9,27 @@ $sizes: (
 
 
 @each $size in $sizes {
-  .col-#{$size} {
-    width: #{percentage($size / 12)};
+  .w-#{$size} {
+    flex: #{$size / 12};
   }
 
-  .xs:col-#{$size} {
-    @media screen and (max-width: 480px) {
-      width: #{percentage($size / 12)};
+  .w-#{$size}--xs {
+    flex: #{$size / 12};
+
+    // @media screen and (max-width: 320px) {
+    //   width: #{percentage($size / 12)};
+    // }
+  }
+
+  .w-#{$size}--md {
+    @media screen and (min-width: 480px) {
+      flex: #{$size / 12} !important;
     }
   }
 
-  .md:col-#{$size} {
-    @media screen and (max-width: 768px) {
-      width: #{percentage($size / 12)};
-    }
-  }
-
-  .lg:col-#{$size} {
-    @media screen and (min-width: 769px) {
-      width: #{percentage($size / 12)};
+  .w-#{$size}--lg {
+    @media screen and (min-width: 768px) {
+      flex: #{$size / 12} !important;
     }
   }
 }

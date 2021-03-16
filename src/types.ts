@@ -79,9 +79,12 @@ export interface CoordsFieldProps extends Except<CommonFieldProps, 'type'> {
 	};
 }
 
+export type SelectOption = {
+	label: string;
+	value: string;
+}
+
 export interface SelectFieldProps extends Except<CommonFieldProps, 'type'> {
 	type: 'select';
-
-	// Required if the type is `select`
-	options?: { value: string; label: string }[];
+	options: SelectOption[];
 }

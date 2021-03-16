@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import cx from 'classnames';
 import { useFormContext } from 'react-hook-form';
-import { Except, SetRequired } from 'type-fest';
+import { Except } from 'type-fest';
 
-import { isTrue } from '../utils';
+import { buildSizeClassName, isTrue } from '../utils';
 import { Field, FieldProps } from './Field';
+import { GeneratedFormClassNames } from './GeneratedForm';
+
+type WatchKey = string;
 
 
 
-export interface ExtendedFieldProps<T, K extends keyof T = keyof T> extends SetRequired<Except<FieldProps, 'name' | 'required'>, 'label'> {
+export type ExtendedFieldProps<T, K extends keyof T = keyof T> = FieldProps & {
   name: K;
+  label: string;
 
-  when?: ( ( values: T ) => boolean ) | boolean | K;
   required?: ( ( values: T ) => boolean ) | boolean;
+
+  when?: ( ( values: T ) => boolean ) | boolean
+  watch?: WatchKey[]
 
   xs?: 2 | 4 | 6 | 8 | 10 | 12;
   md?: 2 | 4 | 6 | 8 | 10 | 12;
@@ -24,13 +30,23 @@ export interface Divider extends Except<Partial<FieldProps>, 'type'> {
   type: 'divider'
 }
 
-export interface GeneratedFieldProps<T> extends ExtendedFieldProps<T> {
+export type GeneratedFieldProps<T> = ExtendedFieldProps<T> & {
   totalFields: number;
+  classNames: Except<GeneratedFormClassNames, 'row'>
 }
 
-export const GeneratedField = <T extends {}>( { totalFields, ...field }: GeneratedFieldProps<T> ) => {
-  const { watch } = useFormContext();
-  const values = watch();
+
+export const GeneratedField = <T extends {}>( { totalFields, classNames, ...field }: GeneratedFieldProps<T> ) => {
+  const { watch, getValues } = useFormContext();
+
+  let values;
+  if ( field.watch && field.when ) {
+    values = watch( field.watch );
+  } else {
+    values = getValues()
+  }
+
+  // const values = {}
 
   const {
     lg,
@@ -38,47 +54,37 @@ export const GeneratedField = <T extends {}>( { totalFields, ...field }: Generat
     xs = Math.floor( 12 / totalFields ),
   } = field
 
+  const lgClassName: string = useMemo( () => buildSizeClassName( classNames.sizeClasses.lg, lg ), [lg, classNames] )
+  const mdClassName: string = useMemo( () => buildSizeClassName( classNames.sizeClasses.md, md ), [md, classNames] )
+  const xsClassName: string = useMemo( () => buildSizeClassName( classNames.sizeClasses.xs, xs ), [xs, classNames] )
+
+
+  if ( field.when && !isTrue( values, field.when ) ) return null;
+
   if ( field.type === 'checkbox' ) {
     return (
-      <div className="w-full">
+      <div className={cx( classNames.inputGroup )}>
         <Field
+          {...field as unknown as FieldProps}
+          classNames={classNames}
           required={isTrue( values, field.required )}
-          {...field as FieldProps}
           name={field.name as string}
         />
       </div>
     );
   }
 
-
-  if ( !isTrue( values, field.when ) ) return null;
-
-  // if ( field.when && isTrue( values, field.when ) ) {
-  //   return (
-  //     <div className={cx( 'w-full mb-3', {
-  //       [`md:w-${md}/12`]: !!md,
-  //       [`sm:w-${xs}/12`]: !!xs,
-  //       [`lg:w-${lg}/12`]: !!lg
-  //     } )} >
-  //       <Field
-  //         required={isTrue( values, field.required )}
-  //         {...field as FieldProps}
-  //         name={field.name as string}
-  //       />
-  //     </div>
-  //   )
-  // }
-
   return (
-    <div className={cx( 'w-full', {
-      [`md:w-${md}/12`]: !!md,
-      [`sm:w-${xs}/12`]: !!xs,
-      [`lg:w-${lg}/12`]: !!lg
+    <div className={cx( classNames.inputGroup, {
+      [xsClassName]: !!xs,
+      [mdClassName]: !!md,
+      [lgClassName]: !!lg
     } )} >
       <Field
+        classNames={classNames}
         required={isTrue( values, field.required )}
-        {...field as FieldProps}
         name={field.name as string}
+        {...field as unknown as FieldProps}
       />
     </div>
   )

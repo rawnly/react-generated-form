@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GeneratedForm, FormStructure } from 'react-generated-form'
 import { useForm, FormProvider } from 'react-hook-form'
 
@@ -45,6 +45,10 @@ const formStructure: FormStructure<FormData> = [
     }
   ],
 
+  [{
+    type: 'divider'
+  }],
+
   // Section 3, Password and Validation
   [
     {
@@ -64,11 +68,11 @@ const formStructure: FormStructure<FormData> = [
           message: 'The password must be maximum 16 characters.'
         }
       },
+      type: 'password',
       xs: 12,
       md: 6
     },
     {
-      when: true,
       name: 'password_confirm',
       label: 'Confirm Password',
       required: true,
@@ -81,9 +85,14 @@ const formStructure: FormStructure<FormData> = [
 
 const Page: NextPage = ( _ ) => {
   const { ...methods } = useForm()
+  // const v = methods.watch()
+
+  // useEffect( () => {
+  //   console.log( v )
+  // }, [v] )
 
   return (
-    <div className="container d-flex flex-column justify-content-center align-items-center" style={{ width: '100vw', height: '100vh' }}>
+    <div className="page" >
       <h1>Form</h1>
       <form className='form' onSubmit={methods.handleSubmit( console.log )}>
         <FormProvider {...methods}>
@@ -94,6 +103,29 @@ const Page: NextPage = ( _ ) => {
           Submit
         </button>
       </form>
+
+      <style jsx>
+        {`
+          * {
+            font-family: sans-serif;
+          }
+
+          .page {
+            width: 100vw;
+            height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            flex-direction: column;
+          }
+
+          form {
+            width: 600px;
+          }
+        `}
+      </style>
     </div>
   );
 }

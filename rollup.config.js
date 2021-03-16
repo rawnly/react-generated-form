@@ -1,6 +1,9 @@
 import typescript from 'rollup-plugin-typescript2'
 import commonjs from '@rollup/plugin-commonjs'
 import sass from 'rollup-plugin-sass'
+// import peerDepsExternal from "rollup-plugin-peer-deps-external";
+
+const pkg = require('./package.json')
 
 export default {
   input: 'src/index.tsx',
@@ -15,11 +18,11 @@ export default {
   ],
   output: [
     {
-      file: 'dist/index.js',
+      file: pkg.main,
       format: 'cjs'
     },
     {
-      file: 'dist/index.es.js',
+      file: pkg.module,
       format: 'esm'
     }
   ]

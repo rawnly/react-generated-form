@@ -1,5 +1,11 @@
 @import 'sizes';
 
+.generatedForm__input,
+.generatedForm__label,
+.generatedForm__hint,
+.generatedForm__error {
+  font-family: sans-serif;
+}
 
 /* Input  */
 .generatedForm__row {
@@ -13,10 +19,15 @@
   margin-bottom: 1rem;
   margin-left: .5rem;
   margin-right: .5rem;
+
+  display: flex;
+  flex-direction: column;
+
 }
 
 .generatedForm__label {
   font-weight: bold;
+  margin-bottom: .5rem;
 
   label {
     margin: 0;
@@ -28,8 +39,8 @@
 }
 
 .generatedForm__input {
-  width: 100%;
-  display: block;
+  // width: 100%;
+  // display: block;
 
   padding: .375rem .75rem;
   margin: 0;
@@ -54,4 +65,23 @@
 .generatedForm__error {
   color: red;
   margin-top: .5rem;
+}
+
+
+
+
+.w-full {
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.w-screen {
+  width: 100vw;
+}
+
+.h-screen {
+  height: 100vh;
 }
