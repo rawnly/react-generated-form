@@ -15,6 +15,7 @@ const formStructure: FormStructure<FormData> = [
   // Section 1, Name and Surname
   [
     {
+      when: true,
       name: 'firstName', // keyof FormData
       label: 'First Name',
       placeholder: 'John',
@@ -23,6 +24,7 @@ const formStructure: FormStructure<FormData> = [
       md: 6 // 2 inputs on the same row if not mobile.
     },
     {
+      when: true,
       name: 'lastName',
       label: 'Last Name',
       placeholder: 'John',
@@ -34,19 +36,19 @@ const formStructure: FormStructure<FormData> = [
   // Section 2, Email
   [
     {
+      when: true,
       name: 'email',
       label: 'Email',
       placeholder: 'you@domain.me',
       required: true,
       type: 'email', // Specify input type,
-      xs: 12 // We can skip this, it's the default behaviour
     }
   ],
 
   // Section 3, Password and Validation
   [
     {
-      when: f => f.email !== '',
+      when: true,
       name: 'password',
       label: 'Password',
       placeholder: '*********',
@@ -66,7 +68,7 @@ const formStructure: FormStructure<FormData> = [
       md: 6
     },
     {
-      when: f => f.email !== '',
+      when: true,
       name: 'password_confirm',
       label: 'Confirm Password',
       required: true,
