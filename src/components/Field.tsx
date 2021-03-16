@@ -56,11 +56,11 @@ export const Field: FC<FieldProps> = ( props ) => {
 
   const inputClassNames = cx(
     props.className,
-    'form-control w-100'
+    'generatedForm__input'
   )
 
   return (
-    <div className='mb-0'>
+    <div className='generatedForm__group'>
       {/* Display label if no checkbox */}
       {props.type !== 'checkbox' && (
         <FieldLabel {...props} />
@@ -142,13 +142,13 @@ export const Field: FC<FieldProps> = ( props ) => {
         />
       )}
 
-      {!errors[props.name] ? !props.noHint ? (
-        <small className='text-gray'>{props.hint || <>&nbsp;</>}</small>
-      ) : null : (
-        <small className='text-danger'>
-          <ErrorMessage errors={errors} name={props.name} />
-        </small>
-      )}
+      {!errors[props.name]
+        ? !props.noHint && <small className='generatedForm__hint'>{props.hint || <>&nbsp;</>}</small>
+        : (
+          <small className='generatedForm__error'>
+            <ErrorMessage errors={errors} name={props.name} />
+          </small>
+        )}
     </div>
   );
 }

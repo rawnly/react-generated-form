@@ -8,6 +8,7 @@ import { isTrue } from '../utils';
 import { Field, FieldProps } from './Field';
 
 
+
 export interface ExtendedFieldProps<T, K extends keyof T = keyof T> extends SetRequired<Except<FieldProps, 'name' | 'required'>, 'label'> {
   name: K;
 
@@ -39,7 +40,7 @@ export const GeneratedField = <T extends {}>( { totalFields, ...field }: Generat
 
   if ( field.type === 'checkbox' ) {
     return (
-      <div className="w-full mb-3">
+      <div className="w-full">
         <Field
           required={isTrue( values, field.required )}
           {...field as FieldProps}
@@ -49,24 +50,27 @@ export const GeneratedField = <T extends {}>( { totalFields, ...field }: Generat
     );
   }
 
-  if ( field.when && isTrue( values, field.when ) ) {
-    return (
-      <div className={cx( 'w-full mb-3', {
-        [`md:w-${md}/12`]: !!md,
-        [`sm:w-${xs}/12`]: !!xs,
-        [`lg:w-${lg}/12`]: !!lg
-      } )} >
-        <Field
-          required={isTrue( values, field.required )}
-          {...field as FieldProps}
-          name={field.name as string}
-        />
-      </div>
-    )
-  }
+
+  if ( !isTrue( values, field.when ) ) return null;
+
+  // if ( field.when && isTrue( values, field.when ) ) {
+  //   return (
+  //     <div className={cx( 'w-full mb-3', {
+  //       [`md:w-${md}/12`]: !!md,
+  //       [`sm:w-${xs}/12`]: !!xs,
+  //       [`lg:w-${lg}/12`]: !!lg
+  //     } )} >
+  //       <Field
+  //         required={isTrue( values, field.required )}
+  //         {...field as FieldProps}
+  //         name={field.name as string}
+  //       />
+  //     </div>
+  //   )
+  // }
 
   return (
-    <div className={cx( 'w-full mb-3', {
+    <div className={cx( 'w-full', {
       [`md:w-${md}/12`]: !!md,
       [`sm:w-${xs}/12`]: !!xs,
       [`lg:w-${lg}/12`]: !!lg

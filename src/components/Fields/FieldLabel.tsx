@@ -6,8 +6,8 @@ interface IFieldLabelProps {
 }
 
 const FieldLabel: FC<IFieldLabelProps> = ( { name, label, children } ) => (
-  <small className='font-bold'>
-    <label className='mb-0' htmlFor={name} dangerouslySetInnerHTML={label && { __html: label }}>
+  <small className='generatedForm__label'>
+    <label htmlFor={name} dangerouslySetInnerHTML={label && { __html: label }}>
       {children}
     </label>
   </small>
