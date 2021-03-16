@@ -3,9 +3,6 @@ import React from 'react';
 import { GeneratedField, ExtendedFieldProps } from './GeneratedField'
 import cx from 'classnames'
 
-import '../style/style.scss';
-
-
 export type FormStructure<T, K extends keyof T = keyof T> = ( ExtendedFieldProps<T, K> )[][];
 
 

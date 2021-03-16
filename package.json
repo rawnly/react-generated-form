@@ -21,6 +21,7 @@
     "bootstrap": "^4.6.0",
     "classnames": "^2.2.6",
     "react-google-places-autocomplete": "^3.2.3",
+    "rollup-plugin-collect-sass": "^1.0.9",
     "type-fest": "^0.21.3"
   },
   "peerDependencies": {

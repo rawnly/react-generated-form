@@ -15,10 +15,6 @@ $sizes: (
 
   .w-#{$size}--xs {
     flex: #{$size / 12};
-
-    // @media screen and (max-width: 320px) {
-    //   width: #{percentage($size / 12)};
-    // }
   }
 
   .w-#{$size}--md {

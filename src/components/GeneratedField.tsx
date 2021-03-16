@@ -46,8 +46,6 @@ export const GeneratedField = <T extends {}>( { totalFields, classNames, ...fiel
     values = getValues()
   }
 
-  // const values = {}
-
   const {
     lg,
     md,

@@ -1,20 +1,28 @@
 import typescript from 'rollup-plugin-typescript2'
 import commonjs from '@rollup/plugin-commonjs'
-import sass from 'rollup-plugin-sass'
-// import peerDepsExternal from "rollup-plugin-peer-deps-external";
+import peerDepsExternal from "rollup-plugin-peer-deps-external";
+import bundleSass from './rollup-plugin-bundle-sass'
 
 const pkg = require('./package.json')
 
 export default {
   input: 'src/index.tsx',
-  external: ['react', 'react-hook-form'],
+  external: ['react', 'react-hook-form', 'react-dom'],
   plugins: [
-    sass(),
+    peerDepsExternal(),
     commonjs(),
     typescript({
       tsconfig: './tsconfig.json',
       clean: true
     }),
+    bundleSass({
+      targets: [
+        {
+          src: './src/style/style.scss',
+          dest: 'css/style.css'
+        }
+      ]
+    })
   ],
   output: [
     {
