@@ -1,10 +1,12 @@
 import { ClassValue } from 'classnames/types';
-import React from 'react';
+import React, { useContext } from 'react';
 import { GeneratedField, ExtendedFieldProps } from './GeneratedField'
 import cx from 'classnames'
+import { GeneratedFormConfigContext, initialState } from '../utils/context';
+
+import '../style/style.scss'
 
 export type FormStructure<T, K extends keyof T = keyof T> = ( ExtendedFieldProps<T, K> )[][];
-
 
 export type GeneratedFormClassNames = {
   input: ClassValue | ClassValue[] | Record<string, boolean>;
@@ -22,30 +24,16 @@ export type GeneratedFormClassNames = {
 
 interface Props<T> {
   structure: FormStructure<T>;
-  classNames?: Partial<GeneratedFormClassNames>
-}
-
-const defaultClassNames: GeneratedFormClassNames = {
-  input: 'generatedForm__input',
-  inputGroup: ['generatedForm__group', 'w-full'],
-  label: 'generatedForm__label',
-  hint: 'generatedForm__hint',
-  row: 'generatedForm__row',
-  error: 'generatedForm__error',
-  sizeClasses: {
-    xs: 'w-$--xs',
-    md: 'w-$--md',
-    lg: 'w-$--lg'
-  }
 }
 
 export const GeneratedForm = <T extends {}>( {
-  structure,
-  classNames = defaultClassNames
+  structure
 }: Props<T> ) => {
+  const configuration = useContext( GeneratedFormConfigContext )
+
   const classes = {
-    ...defaultClassNames,
-    ...classNames
+    ...initialState,
+    ...configuration
   }
 
   return (

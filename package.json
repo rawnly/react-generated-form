@@ -1,6 +1,6 @@
 {
   "name": "react-generated-form",
-  "version": "0.0.1-removing-bootstrap.4",
+  "version": "0.0.1-removing-bootstrap.6",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "license": "MIT",
@@ -15,6 +15,11 @@
     "tpye": "git",
     "url": "https://github.com/rawnly/react-generated-form.git"
   },
+  "files": [
+    "dist/*.css",
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
   "dependencies": {
     "@buttercup/react-formatted-input": "^1.4.0",
     "@hookform/error-message": "^0.0.5",

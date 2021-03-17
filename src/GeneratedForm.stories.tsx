@@ -1,5 +1,5 @@
 import React from 'react'
-import { GeneratedForm, Field } from '.'
+import { GeneratedForm, GeneratedFormConfigProvider } from '.'
 import { useForm, FormProvider } from 'react-hook-form'
 
 export default {
@@ -22,7 +22,6 @@ export const Form = () => {
     <form style={{ maxWidth: 800, width: '80vw' }}>
       <FormProvider {...methods}>
         <GeneratedForm<FormData>
-          classNames={{}}
           structure={[
             [
               {
@@ -77,5 +76,6 @@ export const Form = () => {
         />
       </FormProvider>
     </form>
+
   )
 }
