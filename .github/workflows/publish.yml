@@ -3,30 +3,52 @@ on:
   pull_request:
   push:
     branches:
-      - 'h/*'
+      - 'develop'
       - 'f/*'
-      - 'release/*'
-    tags:
-      - 'v*.*.*'
+      - 'h/*'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: 'Set git identity'
+      id: package-version
+      run: |
+        git switch -c 'master'
+        git config user.email "$GTHUB_ACTOR@gusers.noreply.github.com"
+        git config user.name "$GITHUB_ACTOR"
 
-    - uses: actions/setup-node@v2
-      with:
-        node-version: '12.x'
+    - name: 'Update package version'
+      id: package-version
+      run: |
+        if [[ $GITHUB_REF == refs/heads/* ]]; then
+          REF=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
+        elif [[ $GITHUB_REF == refs/pull/* ]]; then
+          REF=pr-${{ github.event.number }}
+        fi
 
-    - name: Install Dependencies
-      id: install
-      run: yarn
+        if [[ $REF == develop ]]; then
+          npm version patch
+        else
+          npm version prerelease --preid="$REF"
+          echo "$REF"
+        fi
 
-    - name: Run tests suites
-      id: test
-      run: yarn test
+        git push -u origin ${REF}
 
-    - name: Build Project
-      id: build
-      run: yarn build
+    # - uses: actions/setup-node@v2
+    #   with:
+    #     node-version: '12.x'
+
+    # - name: Install Dependencies
+    #   id: install
+    #   run: yarn
+
+    # - name: Run tests suites
+    #   id: test
+    #   run: yarn test
+
+    # - name: Build Project
+    #   id: build
+    #   run: yarn build
