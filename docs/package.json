@@ -15,7 +15,7 @@
     "next-seo": "^4.20.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-generated-form": "0.0.1-removing-bootstrap.4",
+    "react-generated-form": "^0.1.0",
     "react-hook-form": "^6.15.4",
     "sass": "^1.32.8"
   },

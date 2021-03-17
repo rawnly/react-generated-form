@@ -1,133 +1,77 @@
 import { NextPage } from 'next';
-import React, { useEffect, useState } from "react";
-import { GeneratedForm, FormStructure } from 'react-generated-form'
-import { useForm, FormProvider } from 'react-hook-form'
+import { useRouter } from 'next/router';
+import { useCallback } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { GeneratedForm } from 'react-generated-form'
 
-type FormData = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  password_confirm: string;
-}
 
-const formStructure: FormStructure<FormData> = [
-  // Section 1, Name and Surname
-  [
-    {
-      when: true,
-      name: 'firstName', // keyof FormData
-      label: 'First Name',
-      placeholder: 'John',
-      required: true, // by default the error label will be `Field ${label} is required!`
-      xs: 12, // 1 input per row on mobile
-      md: 6 // 2 inputs on the same row if not mobile.
-    },
-    {
-      when: true,
-      name: 'lastName',
-      label: 'Last Name',
-      placeholder: 'John',
-      required: true, // by default the error label will be `Field ${label} is required!`,
-      xs: 12,
-      md: 6
-    },
-  ],
-  // Section 2, Email
-  [
-    {
-      when: true,
-      name: 'email',
-      label: 'Email',
-      placeholder: 'you@domain.me',
-      required: true,
-      type: 'email', // Specify input type,
-    }
-  ],
+interface PageProps { }
 
-  [{
-    type: 'divider'
-  }],
+const Page: NextPage<PageProps> = props => {
+  const router = useRouter();
+  const methods = useForm()
 
-  // Section 3, Password and Validation
-  [
-    {
-      when: true,
-      name: 'password',
-      label: 'Password',
-      placeholder: '*********',
-      hint: 'Must be 8-16 characters.', // You can also add an hint
-      required: true,
-      validation: {
-        minLength: {
-          value: 8,
-          message: 'The password must be at least 8 characters.'
-        },
-        maxLength: {
-          value: 16,
-          message: 'The password must be maximum 16 characters.'
-        }
-      },
-      type: 'password',
-      xs: 12,
-      md: 6
-    },
-    {
-      name: 'password_confirm',
-      label: 'Confirm Password',
-      required: true,
-      type: 'password',
-      xs: 12,
-      md: 6
-    }
-  ]
-]
+  const onSubmit = useCallback( async ( values ) => {
 
-const Page: NextPage = ( _ ) => {
-  const { ...methods } = useForm()
-  // const v = methods.watch()
-
-  // useEffect( () => {
-  //   console.log( v )
-  // }, [v] )
+  }, [] )
 
   return (
-    <div className="page" >
-      <h1>Form</h1>
-      <form className='form' onSubmit={methods.handleSubmit( console.log )}>
+    <div className='d-flex p-5 justify-content-center align-items-center flex-column w-screen h-screen'>
+      <h2>Login</h2>
+      <form
+        onSubmit={methods.handleSubmit( onSubmit )}
+        style={{ maxWidth: 400, width: '80vw' }}
+      >
         <FormProvider {...methods}>
-          <GeneratedForm structure={formStructure} />
+          <GeneratedForm
+            structure={[
+              [
+                {
+                  label: 'Email',
+                  name: 'email',
+                  type: 'email',
+                  placeholder: 'luke@skywalker.me',
+                  required: true,
+                  noHint: true,
+                },
+              ], [
+                {
+                  label: 'Password',
+                  name: 'password',
+                  placeholder: 'Min 8 characters',
+                  type: 'password',
+                  required: true,
+                  noHint: true,
+                  validation: {
+                    minLength: { value: 8, message: 'The password must be at least 8 characters.' },
+                    maxLength: { value: 24, message: 'The password must have maximum 24 characters.' }
+                  }
+                }
+              ]
+            ]} />
         </FormProvider>
 
-        <button type='submit' className='btn btn-primary w-100'>
-          Submit
-        </button>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+
+        }}>
+          <button className='w-100 btn btn-primary'>
+            Login
+          </button>
+
+          <small>
+            <a href="https://github.com/rawnly/react-generated-form">
+              Github Page
+            </a>
+          </small>
+        </div>
       </form>
-
-      <style jsx>
-        {`
-          * {
-            font-family: sans-serif;
-          }
-
-          .page {
-            width: 100vw;
-            height: 100vh;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            flex-direction: column;
-          }
-
-          form {
-            width: 600px;
-          }
-        `}
-      </style>
     </div>
-  );
-}
+  )
+};
+
+
+Page.displayName = 'LoginPage';
 
 export default Page;
