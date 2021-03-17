@@ -2,7 +2,7 @@ name: Generate Documentation
 on:
   push:
     branches:
-      - 'feature/remove-bootstrap-dep'
+      - 'master'
 
 jobs:
   deploy:
