@@ -34,7 +34,8 @@ jobs:
           npm version prerelease --preid="$REF" -m 'version bump'
         fi
 
-        git push && git push --tags
+        git push -u origin ${GITHUB_REF#refs/heads/}
+        git push --tags
 
     # - uses: actions/setup-node@v2
     #   with:
