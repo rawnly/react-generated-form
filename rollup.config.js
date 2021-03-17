@@ -19,7 +19,7 @@ export default {
       targets: [
         {
           src: './src/style/style.scss',
-          dest: 'css/style.css'
+          dest: './dist/style.css'
         }
       ]
     })
