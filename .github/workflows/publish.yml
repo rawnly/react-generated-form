@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: 'Set git identity'
-      id: package-version
+      id: git-identity
       run: |
         git switch -c 'master'
         git config user.email "$GTHUB_ACTOR@gusers.noreply.github.com"
