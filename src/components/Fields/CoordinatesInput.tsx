@@ -31,16 +31,14 @@ const CoordinatesInput: FC<ICoordinatesInputProps> = ( {
         name: props.name,
         onChange: async ( { value: { place_id } } ) => {
           try {
-            const res = await geocodeByPlaceId( place_id )
-            const coords = await getLatLng( res[0] )
-
-            // do stuff with coords
-            // setValue('address', res[0].formatted_address)
+            const response = await geocodeByPlaceId( place_id )
+            const place = response[0];
+            const coords = await getLatLng( place )
 
             setValue( props.name, [coords.lat, coords.lng], { shouldValidate: false } )
-            props.onResult( props, { ...res, coords }, setValue )
+            props.onResult && props.onResult( props, { ...place, coords }, setValue )
           } catch ( error ) {
-            console.error( error )
+            options?.onFail && options?.onFail( error );
           }
         },
       }}

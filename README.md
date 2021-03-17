@@ -5,6 +5,7 @@
 <!-- omit in toc -->
 ### Table of Contents
 - [Under The Hood](#under-the-hood)
+- [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
 
@@ -13,10 +14,32 @@
 ## Under The Hood
 Unde the hood this packages uses `react-hook-form` to validate components and bootstrap for the style.
 
+
+## Installation
+
+```sh
+  npm install react-generated-form
+
+  # or
+
+  yarn add react-generated-form
+```
+
 ## Usage
 ```tsx
-import { GeneratedForm, FormStructure } from 'react-generated-form'
 import { useForm, FormProvider } from 'react-hook-form'
+
+// Import your CSS on top
+import 'bootstrap/dist/bootstrap.min.css';
+
+// Or just import component style
+import 'react-generated-form/dist/style.css'
+
+import {
+  GeneratedForm,
+  FormStructure,
+  GeneratedFormConfigProvider,
+} from 'react-generated-form'
 
 type FormData = {
   firstName: string;
@@ -109,6 +132,29 @@ const formStructure : FormStructure<FormData> = [
       </form>
     )
   }
+
+
+  {/* Later */}
+  {/* Example with bootstrap classes */}
+  ReactDOM.render(
+    <GeneratedFormConfigProvider
+      value={{
+        input: 'form-control w-100',
+        inputGroup: 'd-flex flex-column mb-3',
+        label: 'mb-1',
+        error: 'text-danger',
+        hint: 'text-muted',
+        row: 'row',
+        sizeClasses: {
+          lg: 'col-lg-$',
+          md: 'col-md-$',
+          xs: 'col-sm-$'
+        }
+      }}
+    >
+      <Form />
+    </GeneratedFormConfigProvider>
+  )
 ]
 ```
 
