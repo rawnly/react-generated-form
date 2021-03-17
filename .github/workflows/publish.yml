@@ -29,13 +29,12 @@ jobs:
         fi
 
         if [[ $REF == develop ]]; then
-          npm version patch
+          npm version patch -m 'version bump'
         else
-          npm version prerelease --preid="$REF"
-          echo "$REF"
+          npm version prerelease --preid="$REF" -m 'version bump'
         fi
 
-        git push -u origin ${REF}
+        git push && git push --tags
 
     # - uses: actions/setup-node@v2
     #   with:
