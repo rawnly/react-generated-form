@@ -24,7 +24,7 @@ type Props = FieldProps & {
   classNames: Except<GeneratedFormClassNames, 'inputGroup' | 'row'>
 }
 
-export const Field: FC<Props> = ( { classNames, ...props } ) => {
+export const Field: FC<Props> = ( { classNames = {}, ...props } ) => {
   const { register, errors, unregister } = useFormContext();
 
   let validateFunc;
