@@ -1,6 +1,6 @@
 {
   "name": "react-generated-form",
-  "version": "0.0.1-removing-bootstrap.6",
+  "version": "0.0.1-removing-bootstrap.7",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "license": "MIT",

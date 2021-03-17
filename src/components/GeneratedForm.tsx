@@ -4,8 +4,6 @@ import { GeneratedField, ExtendedFieldProps } from './GeneratedField'
 import cx from 'classnames'
 import { GeneratedFormConfigContext, initialState } from '../utils/context';
 
-import '../style/style.scss'
-
 export type FormStructure<T, K extends keyof T = keyof T> = ( ExtendedFieldProps<T, K> )[][];
 
 export type GeneratedFormClassNames = {
