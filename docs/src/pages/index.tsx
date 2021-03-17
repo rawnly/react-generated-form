@@ -1,32 +1,5 @@
-<!-- omit in toc -->
-# React JSON Form (ALPHA)
-> Create forms with ease
-
-<!-- omit in toc -->
-### Table of Contents
-- [Under The Hood](#under-the-hood)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-
-
-
-## Under The Hood
-Unde the hood this packages uses `react-hook-form` to validate components and bootstrap for the style.
-
-
-## Installation
-
-```sh
-  npm install react-generateed-form
-
-  # or
-
-  yarn add react-generated-form
-```
-
-## Usage
-```tsx
+import { NextPage } from 'next';
+import React, { useEffect, useState } from "react";
 import { GeneratedForm, FormStructure } from 'react-generated-form'
 import { useForm, FormProvider } from 'react-hook-form'
 
@@ -35,12 +8,14 @@ type FormData = {
   lastName: string;
   email: string;
   password: string;
+  password_confirm: string;
 }
 
-const formStructure : FormStructure<FormData> = [
+const formStructure: FormStructure<FormData> = [
   // Section 1, Name and Surname
   [
     {
+      when: true,
       name: 'firstName', // keyof FormData
       label: 'First Name',
       placeholder: 'John',
@@ -49,6 +24,7 @@ const formStructure : FormStructure<FormData> = [
       md: 6 // 2 inputs on the same row if not mobile.
     },
     {
+      when: true,
       name: 'lastName',
       label: 'Last Name',
       placeholder: 'John',
@@ -60,24 +36,29 @@ const formStructure : FormStructure<FormData> = [
   // Section 2, Email
   [
     {
+      when: true,
       name: 'email',
       label: 'Email',
       placeholder: 'you@domain.me',
       required: true,
       type: 'email', // Specify input type,
-      xs: 12 // We can skip this, it's the default behaviour
     }
   ],
+
+  [{
+    type: 'divider'
+  }],
 
   // Section 3, Password and Validation
   [
     {
+      when: true,
       name: 'password',
       label: 'Password',
       placeholder: '*********',
       hint: 'Must be 8-16 characters.', // You can also add an hint
       required: true,
-      validator: { // refer to react-hook-form API
+      validation: {
         minLength: {
           value: 8,
           message: 'The password must be at least 8 characters.'
@@ -87,43 +68,66 @@ const formStructure : FormStructure<FormData> = [
           message: 'The password must be maximum 16 characters.'
         }
       },
+      type: 'password',
       xs: 12,
       md: 6
     },
     {
-      name: 'password_confirm', // with the suffix `_confirm` the form auto validates the fields, so you don't need to manually check values.
+      name: 'password_confirm',
       label: 'Confirm Password',
       required: true,
+      type: 'password',
       xs: 12,
       md: 6
     }
   ]
+]
 
+const Page: NextPage = ( _ ) => {
+  const { ...methods } = useForm()
+  // const v = methods.watch()
 
-  function Form() {
-    const methods = useForm<FormData>({
-      mode: 'onSubmit'
-    })
+  // useEffect( () => {
+  //   console.log( v )
+  // }, [v] )
 
-    const onSubmit = useCallback(...);
-
-    return (
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
+  return (
+    <div className="page" >
+      <h1>Form</h1>
+      <form className='form' onSubmit={methods.handleSubmit( console.log )}>
         <FormProvider {...methods}>
-          <GeneratedForm<FormData> structure={formStructure}>
+          <GeneratedForm structure={formStructure} />
         </FormProvider>
 
-        <div className='form-group'>
-          <button type='submit'>
-            Sign Up
-          </button>
-        </div>
+        <button type='submit' className='btn btn-primary w-100'>
+          Submit
+        </button>
       </form>
-    )
-  }
-]
-```
 
+      <style jsx>
+        {`
+          * {
+            font-family: sans-serif;
+          }
 
-## Contributing
-> SOON
+          .page {
+            width: 100vw;
+            height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            flex-direction: column;
+          }
+
+          form {
+            width: 600px;
+          }
+        `}
+      </style>
+    </div>
+  );
+}
+
+export default Page;
