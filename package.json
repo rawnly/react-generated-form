@@ -8,8 +8,7 @@
     "prebuild": "rm -rf dist",
     "build": "rollup -c",
     "test": "jest",
-    "storybook": "start-storybook -p 6006",
-    "prepublishOnly": "npm run build"
+    "storybook": "start-storybook -p 6006"
   },
   "repository": {
     "tpye": "git",
