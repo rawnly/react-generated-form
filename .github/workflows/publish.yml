@@ -3,6 +3,7 @@ on:
   pull_request:
   push:
     branches:
+      - 'master'
       - 'develop'
       - 'f/*'
       - 'h/*'
@@ -35,8 +36,10 @@ jobs:
         git config user.email "$GTHUB_ACTOR@gusers.noreply.github.com"
         git config user.name "$GITHUB_ACTOR"
 
-    - name: 'Update package version'
+    - name: 'Bump package version'
+      if: ${{ github.ref != 'refs/heads/master' }}
       id: package-version
+      continue-on-error: true
       run: |
         if [[ $GITHUB_REF == refs/heads/* ]]; then
           REF=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
