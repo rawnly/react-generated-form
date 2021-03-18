@@ -12,10 +12,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '12.x'
+
+    - name: 'Install Dependencies'
+      id: install
+      run: yarn
+
+    - name: 'Run tests suites'
+      id: test
+      run: yarn test
+
+    - name: 'Build Project'
+      id: build
+      run: yarn build
+
     - name: 'Set git identity'
       id: git-identity
       run: |
-        git switch -c 'master'
         git config user.email "$GTHUB_ACTOR@gusers.noreply.github.com"
         git config user.name "$GITHUB_ACTOR"
 
@@ -29,26 +44,18 @@ jobs:
         fi
 
         if [[ $REF == develop ]]; then
-          npm version patch -m 'version bump'
+          npm version patch
         else
-          npm version prerelease --preid="$REF" -m 'version bump'
+          npm version prerelease --preid="$REF"
         fi
 
         git push -u origin ${GITHUB_REF#refs/heads/}
         git push --tags
 
-    # - uses: actions/setup-node@v2
-    #   with:
-    #     node-version: '12.x'
+    - name: 'Release Stable'
+      if: ${{ github.ref == 'refs/heads/master' }}
+      run: npm Publish
 
-    # - name: Install Dependencies
-    #   id: install
-    #   run: yarn
-
-    # - name: Run tests suites
-    #   id: test
-    #   run: yarn test
-
-    # - name: Build Project
-    #   id: build
-    #   run: yarn build
+    - name: 'PreRelease'
+      if: ${{ github.ref != 'refs/heads/master' }}
+      run: npm publish --tag next
