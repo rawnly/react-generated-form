@@ -1,5 +1,5 @@
 <!-- omit in toc -->
-# React JSON Form (ALPHA)
+# React JSON Form
 > Create forms with ease
 
 <!-- omit in toc -->
@@ -159,5 +159,37 @@ const formStructure : FormStructure<FormData> = [
 ```
 
 
+## Docs 
+> (work in progress)
+### Field Props
+#### `label: string`
+The label of the input
+#### `name: string`
+Name of the input (will be the key in the json)
+#### `type?: <all the standard input types> | time | coords | select | checkbox` - by default is `text`
+Type of the input, some types such as the `email` have special validation.
+#### `placeholder?: string`
+Placeholder of the input
+#### `hint?: string`
+A small text under the input
+#### `noHint?: boolean`
+Hide the hint
+#### `required?: boolean | string`
+Mark a field as required, the default error text will be `Field {label} is required.`
+#### `validator: {}`
+Some options to validate the value
+#### `when?: (fields: FormFields) => boolean`
+The input will be hidden until this function returns true
+#### `watch?: string[]`
+Tell the input which values to watch for the `when` function.
+#### `xs?: number`
+Column size on mobile
+#### `md?: number`
+Column size on tablet
+#### `lg?: number`
+Column size on desktop
+
 ## Contributing
-> SOON
+Feel free to contribute in any way, or just open an issue ✌️
+
+
