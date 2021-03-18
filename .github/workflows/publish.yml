@@ -39,7 +39,6 @@ jobs:
         git config user.name "$GITHUB_ACTOR"
 
     - name: 'Bump package version'
-      if: ${{ github.ref != 'refs/heads/master' }}
       id: package-version
       continue-on-error: true
       run: |
