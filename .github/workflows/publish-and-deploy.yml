@@ -1,7 +1,9 @@
-name: Publish to NPM
+name: Build / Publish (NPM) / Deploy
 on:
   pull_request:
   push:
+    paths:
+      - 'src/*'
     branches:
       - 'master'
       - 'develop'
@@ -11,7 +13,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: contains(github.commit_message, '(no-ci)') == false
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v2
@@ -35,7 +36,7 @@ jobs:
     - name: 'Set git identity'
       id: git-identity
       run: |
-        git config user.email "$GTHUB_ACTOR@gusers.noreply.github.com"
+        git config user.email "$GTHUB_ACTOR@users.noreply.github.com"
         git config user.name "$GITHUB_ACTOR"
 
     - name: 'Bump package version'
@@ -49,10 +50,12 @@ jobs:
         fi
 
         if [[ $REF == master ]]; then
-          npm version patch
+          VERSION=$(npm version patch)
         else
-          npm version prerelease --preid="$REF"
+          VERSION=$(npm version prerelease --preid="$REF")
         fi
+
+        echo "::set-output name=version::${VERSION}"
 
     - name: 'Release Stable'
       if: ${{ github.ref == 'refs/heads/master' }}
@@ -76,3 +79,26 @@ jobs:
       run: |
         git push -u origin ${GITHUB_REF#refs/heads/}
         git push --tags
+  deploy-docs:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+      - name: Build Docs
+        env:
+          ASSET_PREFIX: '/react-generated-form'
+        run: |
+          cd docs
+          yarn add react-generated-form@${{ needs.build.outputs.version }}
+          yarn build
+          yarn export
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: './docs/out'
