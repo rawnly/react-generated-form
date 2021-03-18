@@ -53,9 +53,6 @@ jobs:
           npm version prerelease --preid="$REF"
         fi
 
-        git push -u origin ${GITHUB_REF#refs/heads/}
-        git push --tags
-
     - name: 'Release Stable'
       if: ${{ github.ref == 'refs/heads/master' }}
       run: npm Publish
@@ -63,3 +60,8 @@ jobs:
     - name: 'PreRelease'
       if: ${{ github.ref != 'refs/heads/master' }}
       run: npm publish --tag next
+
+    - name: 'Push TAGS and Version'
+      run: |
+        git push -u origin ${GITHUB_REF#refs/heads/}
+        git push --tags
