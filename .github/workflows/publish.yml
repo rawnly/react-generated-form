@@ -56,14 +56,20 @@ jobs:
     - name: 'Release Stable'
       if: ${{ github.ref == 'refs/heads/master' }}
       run: npm publish --tag stable
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     - name: 'Canary'
       if: ${{ github.ref == 'refs/heads/develop' }}
       run: npm publish --tag canary
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     - name: 'Dev Release'
       if: ${{ github.ref != 'refs/heads/master' && github.ref != 'refs/heads/develop' }}
       run: npm publish --tag dev
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     - name: 'Push TAGS and Version'
       run: |
