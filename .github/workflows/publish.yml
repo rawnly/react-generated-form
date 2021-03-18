@@ -56,7 +56,7 @@ jobs:
 
     - name: 'Release Stable'
       if: ${{ github.ref == 'refs/heads/master' }}
-      run: npm publish --tag stable
+      run: npm publish --tag latest
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -68,7 +68,7 @@ jobs:
 
     - name: 'Dev Release'
       if: ${{ github.ref != 'refs/heads/master' && github.ref != 'refs/heads/develop' }}
-      run: npm publish --tag dev
+      run: npm publish --tag next
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
