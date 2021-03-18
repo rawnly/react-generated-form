@@ -3,6 +3,7 @@ on:
   pull_request:
   push:
     branches:
+      - 'master'
       - 'develop'
       - 'f/*'
       - 'h/*'
@@ -10,17 +11,37 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: contains(github.commit_message, '(no-ci)') == false
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14.x'
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: 'Install Dependencies'
+      id: install
+      run: yarn
+
+    - name: 'Run tests suites'
+      id: test
+      run: yarn test
+      continue-on-error: true
+
+    - name: 'Build Project'
+      id: build
+      run: yarn build
+
     - name: 'Set git identity'
-      id: package-version
+      id: git-identity
       run: |
-        git switch -c 'master'
         git config user.email "$GTHUB_ACTOR@gusers.noreply.github.com"
         git config user.name "$GITHUB_ACTOR"
 
-    - name: 'Update package version'
+    - name: 'Bump package version'
+      if: ${{ github.ref != 'refs/heads/master' }}
       id: package-version
+      continue-on-error: true
       run: |
         if [[ $GITHUB_REF == refs/heads/* ]]; then
           REF=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
@@ -28,27 +49,31 @@ jobs:
           REF=pr-${{ github.event.number }}
         fi
 
-        if [[ $REF == develop ]]; then
+        if [[ $REF == master ]]; then
           npm version patch
         else
           npm version prerelease --preid="$REF"
-          echo "$REF"
         fi
 
-        git push -u origin ${REF}
+    - name: 'Release Stable'
+      if: ${{ github.ref == 'refs/heads/master' }}
+      run: npm publish --tag stable
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-    # - uses: actions/setup-node@v2
-    #   with:
-    #     node-version: '12.x'
+    - name: 'Canary'
+      if: ${{ github.ref == 'refs/heads/develop' }}
+      run: npm publish --tag canary
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-    # - name: Install Dependencies
-    #   id: install
-    #   run: yarn
+    - name: 'Dev Release'
+      if: ${{ github.ref != 'refs/heads/master' && github.ref != 'refs/heads/develop' }}
+      run: npm publish --tag dev
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-    # - name: Run tests suites
-    #   id: test
-    #   run: yarn test
-
-    # - name: Build Project
-    #   id: build
-    #   run: yarn build
+    - name: 'Push TAGS and Version'
+      run: |
+        git push -u origin ${GITHUB_REF#refs/heads/}
+        git push --tags

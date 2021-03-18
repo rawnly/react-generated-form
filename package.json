@@ -1,6 +1,6 @@
 {
   "name": "react-generated-form",
-  "version": "0.1.0",
+  "version": "0.1.1-develop.1",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "license": "MIT",
@@ -8,8 +8,7 @@
     "prebuild": "rm -rf dist",
     "build": "rollup -c",
     "test": "jest",
-    "storybook": "start-storybook -p 6006",
-    "prepublishOnly": "npm run build"
+    "storybook": "start-storybook -p 6006"
   },
   "repository": {
     "tpye": "git",
