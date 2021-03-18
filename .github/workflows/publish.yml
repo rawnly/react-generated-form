@@ -47,7 +47,7 @@ jobs:
           REF=pr-${{ github.event.number }}
         fi
 
-        if [[ $REF == develop ]]; then
+        if [[ $REF == master ]]; then
           npm version patch
         else
           npm version prerelease --preid="$REF"
@@ -55,11 +55,15 @@ jobs:
 
     - name: 'Release Stable'
       if: ${{ github.ref == 'refs/heads/master' }}
-      run: npm Publish
+      run: npm publish --tag stable
 
-    - name: 'PreRelease'
-      if: ${{ github.ref != 'refs/heads/master' }}
-      run: npm publish --tag next
+    - name: 'Canary'
+      if: ${{ github.ref == 'refs/heads/develop' }}
+      run: npm publish --tag canary
+
+    - name: 'Dev Release'
+      if: ${{ github.ref != 'refs/heads/master' && github.ref != 'refs/heads/develop' }}
+      run: npm publish --tag dev
 
     - name: 'Push TAGS and Version'
       run: |
