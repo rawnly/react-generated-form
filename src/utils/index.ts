@@ -1,5 +1,5 @@
 import { FieldProps } from '../components/Field'
-import { FieldType } from '../types'
+import { CommonFieldProps, CommonFieldType, FieldType } from '../types'
 
 export type SpecialType = 'checkbox' | 'coords' | 'time' | 'textarea' | 'select'
 
@@ -10,6 +10,9 @@ export const needManualRegister = ( type: FieldType ) =>
 
 export const getDefaultRequiredText = ( label: string ) =>
   `The field "${label}" is required.`
+
+export const isCommonType = (type: FieldType) : type is CommonFieldType =>
+  !isSpecialType(type)
 
 export const isSpecialType = ( type: FieldType ): type is SpecialType => type in [
     'checkbox',
@@ -30,3 +33,8 @@ export const isTrue =  ( values, check ) =>
 
 
 export const buildSizeClassName = (template: string, size: number) => template.replace('$', `${size}`)
+
+
+export const isCommonField = (props: FieldProps) : props is CommonFieldProps => {
+  return !isSpecialType(props.type)
+}

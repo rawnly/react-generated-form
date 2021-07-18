@@ -26,3 +26,51 @@
 		Moderate: /(?=(.*[0-9]))((?=.*[A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z]))^.{8,}$/gm, //  Should have 1 lowercase letter, 1 uppercase letter, 1 number, and be at least 8 characters long
 	},
 };
+
+
+type DeeplyRequired<T extends object> = {
+	[K in keyof T]-?: T[K] extends object
+		? DeeplyRequired<T[K]>
+		: T[K];
+};
+
+
+export type ErrorMessages = Partial<{
+	email: {
+	  invalid?: string;
+	},
+	url: {
+	  invalid?: string;
+	},
+	number: {
+	  invalid?: string;
+	  min?: string;
+	  max?: string;
+	},
+	general: {
+	  invalid?: string;
+	  maxLength?: string;
+	  minLength?: string;
+	  required?: string;
+	}
+  }>
+
+export const ERRORS: DeeplyRequired<ErrorMessages> = {
+	email: {
+	  invalid: 'Please enter a valid email address.'
+	},
+	url: {
+	  invalid: 'Please enter a valid URL.'
+	},
+	number: {
+	  invalid: 'Please enter a valid number.',
+	  max: 'Max value is {{value}}.',
+	  min: 'Min value is {{value}}.'
+	},
+	general: {
+	  invalid: 'Please enter a valid value.',
+	  maxLength: 'Too long. Max {{value}} characters.',
+	  minLength: 'Must be at least {{value}} characters.',
+	  required: 'The field "{{label}}" is required'
+	}
+  }
