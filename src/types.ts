@@ -1,10 +1,10 @@
 import { Except } from 'type-fest'
-import { ClassValue } from 'classnames/types'
+import { Value as ClassValue } from 'classnames'
 import { CSSProperties } from 'react'
-import { Validate, ValidationRule } from 'react-hook-form';
+import { ValidationRule } from 'react-hook-form';
 import { AutocompletionRequest, LatLng } from 'react-google-places-autocomplete/build/GooglePlacesAutocomplete.types';
 
-type CommonFieldType = 'address'
+export type CommonFieldType = 'address'
 | 'text'
 | 'email'
 | 'url'
@@ -18,7 +18,7 @@ type CommonFieldType = 'address'
 
 export type FieldType = CommonFieldType | 'coords' | 'select'
 
-export interface CommonFieldProps {
+export interface CommonFieldProps<T = any> {
 	// Unique identifier for the field `id` and `name`
 	name: string;
 
@@ -34,16 +34,10 @@ export interface CommonFieldProps {
 	// react-hook-form validation options.
 	validation?: {
 		min?: ValidationRule<number | string>;
-    max?: ValidationRule<number | string>;
-    maxLength?: ValidationRule<number | string>;
-    minLength?: ValidationRule<number | string>;
+		max?: ValidationRule<number | string>;
+		maxLength?: ValidationRule<number | string>;
+		minLength?: ValidationRule<number | string>;
 	};
-
-	// react-hook-form validate
-	validate?:  Validate | Record<string, Validate> | {
-    value: Validate | Record<string, Validate>;
-    message: string;
-	}
 
 	// if true the input will be readonly
 	readOnly?: boolean;
@@ -53,6 +47,8 @@ export interface CommonFieldProps {
 
 	// Extra classnames
 	className?: ClassValue | ClassValue[] | Record<string, boolean>;
+
+	groupClassName?: ClassValue | ClassValue[] | Record<string, boolean>;
 
 	// Hint under the input
 	hint?: string;
@@ -65,9 +61,11 @@ export interface CommonFieldProps {
 
 	// CSS
 	style?: CSSProperties;
+
+	component?: React.ComponentType<T>;
 }
 
-export interface CoordsFieldProps extends Except<CommonFieldProps, 'type'> {
+export interface CoordsFieldProps extends Except<CommonFieldProps, 'type' | 'component'> {
 	type: 'coords';
 	googleApiKey: string;
 	onResult?: ( props: CoordsFieldProps, value: google.maps.GeocoderResult & { coords: LatLng }, setValue: ( key: string, val: any ) => void ) => void;
@@ -84,7 +82,7 @@ export type SelectOption = {
 	value: string;
 }
 
-export interface SelectFieldProps extends Except<CommonFieldProps, 'type'> {
+export interface SelectFieldProps extends Except<CommonFieldProps, 'type' | 'component'> {
 	type: 'select';
 	options: SelectOption[];
 }

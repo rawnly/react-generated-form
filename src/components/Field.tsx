@@ -1,12 +1,12 @@
 import React, { FC, useEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, ValidationRule } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import cx from 'classnames';
 
 import { CommonFieldProps, CoordsFieldProps, SelectFieldProps } from '../types'
 
-import { getDefaultRequiredText, isSpecialType, needManualRegister } from '../utils'
-import { validators } from '../utils/validators'
+import { getDefaultRequiredText, hasHint, isCommonField, isSpecialType, needManualRegister } from '../utils'
+import { validators, ERRORS } from '../utils/validators'
 
 import CheckBox from './Fields/Checkbox';
 import FieldLabel from './Fields/FieldLabel'
@@ -15,7 +15,7 @@ import CoordinatesInput from './Fields/CoordinatesInput';
 import TimeInput from './Fields/TimeInput';
 import { GeneratedFormClassNames } from './GeneratedForm';
 import { Except } from 'type-fest';
-
+import { match } from 'ts-pattern'
 
 export type FieldProps = ( CommonFieldProps | SelectFieldProps | CoordsFieldProps )
 
@@ -26,6 +26,7 @@ type Props = FieldProps & {
 }
 
 
+
 export const Field: FC<Props> = ( { classNames = {}, ...props } ) => {
   const { register, formState: { errors }, unregister } = useFormContext();
 
@@ -34,25 +35,22 @@ export const Field: FC<Props> = ( { classNames = {}, ...props } ) => {
     validateFunc = ( values: any ) => values[props.name] === values[props.name.replace( CONFIRM_REGEX, '' )] || `Field doesn't match.`
   }
 
-  const defaultValidation: any = {};
+  const patternValidation: ValidationRule<RegExp> = match( props.type )
+    .with( 'email', () => ( {
+      value: validators.email.Common,
+      message: ERRORS.email.invalid
+    } ) )
+    .with( 'url', () => ( {
+      value: validators.url,
+      message: ERRORS.url.invalid
+    } ) )
+    .otherwise( () => undefined )
 
-  switch ( props.type ) {
-    case 'email':
-      defaultValidation.value = validators.email.Common;
-      defaultValidation.message = 'Please enter a valid email address.';
-      break;
-    case 'url':
-      defaultValidation.value = validators.url;
-      defaultValidation.message = 'Please enter a valid url.';
-      break;
-    default:
-      break;
-  }
 
   useEffect( () => {
     if ( needManualRegister( props.type ) ) {
       register( props.name, {
-        pattern: defaultValidation,
+        pattern: patternValidation,
         ...props.validation,
         required: props.required && getDefaultRequiredText( props.label )
       } )
@@ -64,6 +62,8 @@ export const Field: FC<Props> = ( { classNames = {}, ...props } ) => {
   const inputClassNames = cx(
     props.className
   )
+
+  const Component = isCommonField( props ) ? props.component : ( props: any ) => <input {...props} />;
 
   return (
     <>
@@ -84,7 +84,7 @@ export const Field: FC<Props> = ( { classNames = {}, ...props } ) => {
       {/* Checkbox Component */}
       {props.type === 'checkbox' && (
         <CheckBox
-          defaultValidation={defaultValidation}
+          defaultValidation={patternValidation}
           validateFunc={validateFunc}
           {...props}
         />
@@ -100,7 +100,7 @@ export const Field: FC<Props> = ( { classNames = {}, ...props } ) => {
 
       {/* Textarea */}
       {props.type === 'textarea' && (
-        <textarea
+        <Component
           id={props.name}
           name={props.name}
           readOnly={props.readOnly}
@@ -108,27 +108,28 @@ export const Field: FC<Props> = ( { classNames = {}, ...props } ) => {
           placeholder={props.placeholder}
           autoComplete={props.autocomplete}
           className={inputClassNames}
-          ref={register( props.name, {
-            pattern: defaultValidation,
+          {...register( props.name, {
+            pattern: patternValidation,
             validate: validateFunc,
             ...props.validation,
             required: props.required && getDefaultRequiredText( props.label ),
-          } ) as any}></textarea>
+          } ) as any}></Component>
       )}
 
       {/* Select Component */}
       {props.type === 'select' && (
         <SelectInput
           validateFunc={validateFunc}
-          defaultValidation={defaultValidation}
+          defaultValidation={patternValidation}
           className={inputClassNames as any}
           {...props}
         />
       )}
 
+
       {/* Standard Input */}
       {!isSpecialType( props.type ) && (
-        <input
+        <Component
           id={props.name}
           name={props.name}
           type={props.type}
@@ -139,8 +140,8 @@ export const Field: FC<Props> = ( { classNames = {}, ...props } ) => {
           autoComplete={props.autocomplete}
           min={props.validation?.min as string}
           max={props.validation?.max as string}
-          ref={register( props.name, {
-            pattern: defaultValidation,
+          {...register( props.name, {
+            pattern: patternValidation,
             validate: validateFunc,
             ...props.validation,
             required: props.required && getDefaultRequiredText( props.label ),
@@ -148,8 +149,9 @@ export const Field: FC<Props> = ( { classNames = {}, ...props } ) => {
         />
       )}
 
+
       {!errors[props.name]
-        ? !props.noHint && <small className={cx( classNames.hint )}>{props.hint || <>&nbsp;</>}</small>
+        ? hasHint( props ) && <small className={cx( classNames.hint )}>{props.hint || <>&nbsp;</>}</small>
         : (
           <small className={cx( classNames.error )}>
             <ErrorMessage errors={errors} name={props.name} />

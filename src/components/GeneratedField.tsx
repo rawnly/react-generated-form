@@ -27,12 +27,11 @@ export interface Divider extends Except<Partial<FieldProps>, 'type'> {
 }
 
 export type GeneratedFieldProps<T> = ExtendedFieldProps<T> & {
-  totalFields: number;
   classNames: Except<GeneratedFormClassNames, 'row'>
 }
 
 
-export const GeneratedField = <T extends {}>( { totalFields, classNames, ...field }: GeneratedFieldProps<T> ) => {
+export const GeneratedField = <T extends {}>( { classNames, ...field }: GeneratedFieldProps<T> ) => {
   const { watch, getValues } = useFormContext();
 
   let values;

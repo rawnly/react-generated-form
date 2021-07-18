@@ -37,16 +37,21 @@ export const GeneratedForm = <T extends {}>( {
             ( fields, idx ) => (
               <div className={cx( classes.row )} key={idx}>
                 {fields
-                  .map( ( { className = classes.input, ...fieldProps }, idx ) => {
+                  .map( ( { className = classes.input, groupClassName = classes.inputGroup, ...fieldProps }, idx ) => {
                     // if ( fieldProps.type === 'divider' ) return <hr key={idx} className='generateForm__separator' />
 
                     return (
                       <GeneratedField
                         key={idx}
                         {...fieldProps}
-                        classNames={classes}
-                        className={className}
-                        totalFields={fields.length}
+                        className={cx(
+                          classes.input,
+                          className
+                        )}
+                        classNames={{
+                          ...classes,
+                          inputGroup: groupClassName
+                        }}
                       />
                     )
                   } )
