@@ -2,7 +2,7 @@ import typescript from 'rollup-plugin-typescript2'
 import commonjs from '@rollup/plugin-commonjs'
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import bundleSass from './rollup-plugin-bundle-sass'
-
+import postcss from 'rollup-plugin-postcss'
 const pkg = require('./package.json')
 
 export default {
@@ -14,6 +14,9 @@ export default {
     typescript({
       tsconfig: './tsconfig.json',
       clean: true
+    }),
+    postcss({
+      config: './postcss.config.js',
     }),
     bundleSass({
       targets: [

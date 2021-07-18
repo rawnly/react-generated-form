@@ -7,12 +7,7 @@ export const initialState: GeneratedFormClassNames = {
   label: 'generatedForm__label',
   hint: 'generatedForm__hint',
   row: 'generatedForm__row',
-  error: 'generatedForm__error',
-  sizeClasses: {
-    xs: 'w-$--xs',
-    md: 'w-$--md',
-    lg: 'w-$--lg'
-  }
+  error: 'generatedForm__error'
 }
 
 export const GeneratedFormConfigContext = createContext<Partial<GeneratedFormClassNames>>(initialState);

@@ -16,6 +16,7 @@ import TimeInput from './Fields/TimeInput';
 import { GeneratedFormClassNames } from './GeneratedForm';
 import { Except } from 'type-fest';
 
+
 export type FieldProps = ( CommonFieldProps | SelectFieldProps | CoordsFieldProps )
 
 const CONFIRM_REGEX = /_confirm$|^confirm_/gi
@@ -24,8 +25,9 @@ type Props = FieldProps & {
   classNames: Except<GeneratedFormClassNames, 'inputGroup' | 'row'>
 }
 
+
 export const Field: FC<Props> = ( { classNames = {}, ...props } ) => {
-  const { register, errors, unregister } = useFormContext();
+  const { register, formState: { errors }, unregister } = useFormContext();
 
   let validateFunc;
   if ( CONFIRM_REGEX.test( props.name ) ) {
@@ -106,7 +108,7 @@ export const Field: FC<Props> = ( { classNames = {}, ...props } ) => {
           placeholder={props.placeholder}
           autoComplete={props.autocomplete}
           className={inputClassNames}
-          ref={register( {
+          ref={register( props.name, {
             pattern: defaultValidation,
             validate: validateFunc,
             ...props.validation,
@@ -137,7 +139,7 @@ export const Field: FC<Props> = ( { classNames = {}, ...props } ) => {
           autoComplete={props.autocomplete}
           min={props.validation?.min as string}
           max={props.validation?.max as string}
-          ref={register( {
+          ref={register( props.name, {
             pattern: defaultValidation,
             validate: validateFunc,
             ...props.validation,
