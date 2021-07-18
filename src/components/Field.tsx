@@ -84,6 +84,7 @@ export const Field: FC<Props> = ( { classNames = {}, ...props } ) => {
       {/* Checkbox Component */}
       {props.type === 'checkbox' && (
         <CheckBox
+          className={inputClassNames}
           defaultValidation={patternValidation}
           validateFunc={validateFunc}
           {...props}

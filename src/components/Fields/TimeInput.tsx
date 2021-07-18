@@ -6,7 +6,7 @@ import { getDefaultRequiredText } from '../../utils';
 
 
 interface ITimeInputProps extends CommonFieldProps {
-  validateFunc: Validate | Record<string, Validate>;
+  validateFunc: Validate<string> | Record<string, Validate<string>>;
 }
 
 const TimeInput: FC<ITimeInputProps> = ( { validateFunc: validate, ...props } ) => {
@@ -20,8 +20,9 @@ const TimeInput: FC<ITimeInputProps> = ( { validateFunc: validate, ...props } ) 
         validate,
         required: props.required && getDefaultRequiredText( props.label ),
       }}
-      as={
+      render={field =>
         <FormattedInput
+          {...field}
           type={'text'}
           readOnly={props.readOnly}
           placeholder={props.placeholder}

@@ -8,12 +8,10 @@ interface IFieldLabelProps {
   className: ClassValue | ClassValue[] | Record<string, boolean>
 }
 
-const FieldLabel: FC<IFieldLabelProps> = ( { name, className, label, children } ) => (
-  <small className={cx( className )}>
-    <label htmlFor={name} dangerouslySetInnerHTML={label && { __html: label }}>
-      {children}
-    </label>
-  </small>
+const FieldLabel: FC<IFieldLabelProps> = ( { name, className, label } ) => (
+  <label htmlFor={name} className={cx( className )}>
+    {label}
+  </label>
 );
 
 
