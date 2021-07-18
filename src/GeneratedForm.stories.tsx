@@ -28,17 +28,11 @@ export const Form = () => {
             [
               {
                 label: "First Name",
-                name: 'firstName',
-                xs: 12,
-                md: 6,
-                lg: 6
+                name: 'firstName'
               },
               {
                 label: "Last Name",
                 name: 'lastName',
-                xs: 12,
-                md: 6,
-                lg: 6
               },
             ],
             [

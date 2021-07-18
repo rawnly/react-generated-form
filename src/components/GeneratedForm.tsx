@@ -1,4 +1,4 @@
-import { ClassValue } from 'classnames/types';
+import { Value as ClassValue } from 'classnames';
 import React, { useContext } from 'react';
 import { GeneratedField, ExtendedFieldProps } from './GeneratedField'
 import cx from 'classnames'
@@ -7,12 +7,13 @@ import { GeneratedFormConfigContext, initialState } from '../utils/context';
 export type FormStructure<T, K extends keyof T = keyof T> = ( ExtendedFieldProps<T, K> )[][];
 
 export type GeneratedFormClassNames = {
-  input: ClassValue | ClassValue[] | Record<string, boolean>;
-  inputGroup: ClassValue | ClassValue[] | Record<string, boolean>;
-  label: ClassValue | ClassValue[] | Record<string, boolean>;
-  hint: ClassValue | ClassValue[] | Record<string, boolean>;
-  error: ClassValue | ClassValue[] | Record<string, boolean>;
-  row: ClassValue | ClassValue[] | Record<string, boolean>;
+  color?: string;
+  input?: ClassValue | ClassValue[] | Record<string, boolean>;
+  inputGroup?: ClassValue | ClassValue[] | Record<string, boolean>;
+  label?: ClassValue | ClassValue[] | Record<string, boolean>;
+  hint?: ClassValue | ClassValue[] | Record<string, boolean>;
+  error?: ClassValue | ClassValue[] | Record<string, boolean>;
+  row?: ClassValue | ClassValue[] | Record<string, boolean>;
 }
 
 interface Props<T> {
@@ -22,11 +23,13 @@ interface Props<T> {
 export const GeneratedForm = <T extends {}>( {
   structure
 }: Props<T> ) => {
-  const configuration = useContext( GeneratedFormConfigContext )
+  const { color, ...configuration } = useContext( GeneratedFormConfigContext )
 
   const classes = {
     ...initialState,
-    ...configuration
+    ...configuration,
+    input: cx( initialState.input || configuration.input )
+      .replace( '$color', color ),
   }
 
   return (

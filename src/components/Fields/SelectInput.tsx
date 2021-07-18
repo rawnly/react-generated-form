@@ -8,7 +8,7 @@ import { getDefaultRequiredText } from '../../utils';
 interface ISelectInputProps extends SelectFieldProps {
   className?: string;
   defaultValidation: ValidationRule<RegExp>;
-  validateFunc: Validate | Record<string, Validate>
+  validateFunc: Validate<string> | Record<string, Validate<string>>
 }
 
 const SelectInput: FC<ISelectInputProps> = ( {
@@ -28,12 +28,6 @@ const SelectInput: FC<ISelectInputProps> = ( {
 
   return (
     <select
-      ref={register( {
-        pattern,
-        validate,
-        ...validation,
-        required: required && getDefaultRequiredText( label )
-      } )}
       id={name}
       name={name}
       className={className}
@@ -42,6 +36,12 @@ const SelectInput: FC<ISelectInputProps> = ( {
         ...style,
         appearance: 'none'
       }}
+      {...register( name, {
+        pattern,
+        validate,
+        ...validation,
+        required: required && getDefaultRequiredText( label )
+      } )}
     >
       {placeholder && (
         <option value={placeholder} disabled>

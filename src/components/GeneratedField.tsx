@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import cx from 'classnames';
 import { useFormContext } from 'react-hook-form';
 import { Except } from 'type-fest';
 
-import { buildSizeClassName, isTrue } from '../utils';
+import { isTrue } from '../utils';
 import { Field, FieldProps } from './Field';
 import { GeneratedFormClassNames } from './GeneratedForm';
 
