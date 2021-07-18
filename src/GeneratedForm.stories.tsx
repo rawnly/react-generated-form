@@ -17,35 +17,50 @@ export const Form = () => {
     lastName: string;
     email: string;
     acceptTerms: boolean;
+    terms2: boolean;
     color: string;
   }
 
   return (
-    <form style={{ maxWidth: 800, width: '80vw' }}>
+    <form className='absolute top-2/4 left-2/4 transform -translate-y-2/4 -translate-x-2/4' style={{ maxWidth: 600, width: '80vw' }}>
       <FormProvider {...methods}>
         <GeneratedForm<FormData>
           structure={[
             [
               {
                 label: "First Name",
-                name: 'firstName'
+                name: 'firstName',
+                autocomplete: 'name',
+                placeholder: 'John',
+                groupClassName: 'md:flex-5 mr-2',
               },
               {
                 label: "Last Name",
                 name: 'lastName',
+                placeholder: 'Doe',
+                autocomplete: 'surname',
+                groupClassName: 'md:flex-5 ml-2',
               },
             ],
             [
               {
                 label: "Email",
                 name: 'email',
+                placeholder: 'Your email address'
               },
             ], [
               {
                 name: "acceptTerms",
                 label: 'Accept Terms',
-                type: 'checkbox'
-              }
+                type: 'checkbox',
+                hint: 'some cool text'
+              },
+              {
+                name: "terms2",
+                label: 'Accept Terms again',
+                type: 'checkbox',
+                hint: 'some cool text'
+              },
             ], [
               {
                 name: 'color',
@@ -71,7 +86,9 @@ export const Form = () => {
           ]}
         />
       </FormProvider>
+      <button type='submit' className="px-4 rounded shadow text-white font-semibold ml-auto py-2 bg-indigo-500 hover:bg-indigo-600">
+        Submit
+      </button>
     </form>
-
   )
 }

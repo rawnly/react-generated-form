@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import React, { FC, useContext } from "react";
 
 import { useFormContext, Validate, ValidationRule } from 'react-hook-form';
@@ -11,8 +12,10 @@ interface ICheckBoxProps extends CommonFieldProps {
 
 const CheckBox: FC<ICheckBoxProps> = ( props ) => {
   const { register } = useFormContext()
-  const { color } = useContext( GeneratedFormConfigContext )
+  const { accent: color } = useContext( GeneratedFormConfigContext )
 
+
+  const colors = 'text-$color-600 focus:ring-$color-500'.replace( '$color', color );
 
   return (
     <div className="relative flex items-start">
@@ -22,7 +25,7 @@ const CheckBox: FC<ICheckBoxProps> = ( props ) => {
           aria-describedby={`${props.name}-description`}
           name={props.name}
           type="checkbox"
-          className={"focus:ring-$color-500 h-4 w-4 text-$color-600 border-gray-300 rounded".replace( '$color', color )}
+          className={cx( "h-4 w-4 border-gray-300 rounded", colors )}
           {...register( props.name, {
             pattern: props.defaultValidation,
             validate: props.validateFunc,

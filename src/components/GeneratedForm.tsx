@@ -7,7 +7,7 @@ import { GeneratedFormConfigContext, initialState } from '../utils/context';
 export type FormStructure<T, K extends keyof T = keyof T> = ( ExtendedFieldProps<T, K> )[][];
 
 export type GeneratedFormClassNames = {
-  color?: string;
+  accent?: string;
   input?: ClassValue | ClassValue[] | Record<string, boolean>;
   inputGroup?: ClassValue | ClassValue[] | Record<string, boolean>;
   label?: ClassValue | ClassValue[] | Record<string, boolean>;
@@ -17,19 +17,21 @@ export type GeneratedFormClassNames = {
 }
 
 interface Props<T> {
+  accent?: string;
   structure: FormStructure<T>;
 }
 
 export const GeneratedForm = <T extends {}>( {
-  structure
+  structure,
+  accent
 }: Props<T> ) => {
-  const { color, ...configuration } = useContext( GeneratedFormConfigContext )
+  const { accent: accentColor, ...configuration } = useContext( GeneratedFormConfigContext )
 
   const classes = {
     ...initialState,
     ...configuration,
     input: cx( initialState.input || configuration.input )
-      .replace( '$color', color ),
+      .replace( '$color', accent ?? accentColor ),
   }
 
   return (
@@ -47,6 +49,7 @@ export const GeneratedForm = <T extends {}>( {
                       <GeneratedField
                         key={idx}
                         {...fieldProps}
+                        color={accent ?? accentColor}
                         className={cx(
                           classes.input,
                           className
