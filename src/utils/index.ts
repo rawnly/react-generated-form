@@ -1,3 +1,4 @@
+import { FieldProps } from '../components/Field'
 import { FieldType } from '../types'
 
 export type SpecialType = 'checkbox' | 'coords' | 'time' | 'textarea' | 'select'
@@ -10,9 +11,15 @@ export const needManualRegister = ( type: FieldType ) =>
 export const getDefaultRequiredText = ( label: string ) =>
   `The field "${label}" is required.`
 
-export const isSpecialType = ( type: FieldType ): type is SpecialType =>
-  ['checkbox', 'coords', 'select', 'textarea', 'time'].indexOf( type ) >= 0
+export const isSpecialType = ( type: FieldType ): type is SpecialType => type in [
+    'checkbox',
+    'coords',
+    'select',
+    'textarea',
+    'time'
+  ] //.indexOf( type ) >= 0
 
+export const hasHint = (props: FieldProps): boolean => props.hint && !props.noHint && props.type !== 'checkbox'
 
 export const isTrue =  ( values, check ) =>
   check instanceof Function

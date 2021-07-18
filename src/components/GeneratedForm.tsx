@@ -13,11 +13,6 @@ export type GeneratedFormClassNames = {
   hint: ClassValue | ClassValue[] | Record<string, boolean>;
   error: ClassValue | ClassValue[] | Record<string, boolean>;
   row: ClassValue | ClassValue[] | Record<string, boolean>;
-  sizeClasses: {
-    md: string,
-    xs: string,
-    lg: string,
-  }
 }
 
 interface Props<T> {

@@ -2,6 +2,8 @@ import React from 'react'
 import { GeneratedForm, GeneratedFormConfigProvider } from '.'
 import { useForm, FormProvider } from 'react-hook-form'
 
+import 'tailwindcss/tailwind.css';
+
 export default {
   title: "GeneratedForm"
 }

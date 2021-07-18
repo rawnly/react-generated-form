@@ -20,10 +20,6 @@ export type ExtendedFieldProps<T, K extends keyof T = keyof T> = FieldProps & {
 
   when?: ( ( values: T ) => boolean ) | boolean
   watch?: WatchKey[]
-
-  xs?: 2 | 4 | 6 | 8 | 10 | 12;
-  md?: 2 | 4 | 6 | 8 | 10 | 12;
-  lg?: 2 | 4 | 6 | 8 | 10 | 12;
 }
 
 export interface Divider extends Except<Partial<FieldProps>, 'type'> {
@@ -46,16 +42,6 @@ export const GeneratedField = <T extends {}>( { totalFields, classNames, ...fiel
     values = getValues()
   }
 
-  const {
-    lg,
-    md,
-    xs = Math.floor( 12 / totalFields ),
-  } = field
-
-  const lgClassName: string = useMemo( () => buildSizeClassName( classNames.sizeClasses.lg, lg ), [lg, classNames] )
-  const mdClassName: string = useMemo( () => buildSizeClassName( classNames.sizeClasses.md, md ), [md, classNames] )
-  const xsClassName: string = useMemo( () => buildSizeClassName( classNames.sizeClasses.xs, xs ), [xs, classNames] )
-
 
   if ( field.when && !isTrue( values, field.when ) ) return null;
 
@@ -73,11 +59,7 @@ export const GeneratedField = <T extends {}>( { totalFields, classNames, ...fiel
   }
 
   return (
-    <div className={cx( classNames.inputGroup, {
-      [xsClassName]: !!xs,
-      [mdClassName]: !!md,
-      [lgClassName]: !!lg
-    } )} >
+    <div className={cx( classNames.inputGroup )} >
       <Field
         classNames={classNames}
         required={isTrue( values, field.required )}
