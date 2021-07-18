@@ -14,13 +14,13 @@ export const getDefaultRequiredText = ( label: string ) =>
 export const isCommonType = (type: FieldType) : type is CommonFieldType =>
   !isSpecialType(type)
 
-export const isSpecialType = ( type: FieldType ): type is SpecialType => type in [
+export const isSpecialType = ( type: FieldType ): type is SpecialType => [
     'checkbox',
     'coords',
     'select',
     'textarea',
     'time'
-  ] //.indexOf( type ) >= 0
+  ].indexOf( type ) >= 0
 
 export const hasHint = (props: FieldProps): boolean => props.hint && !props.noHint && props.type !== 'checkbox'
 

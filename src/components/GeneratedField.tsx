@@ -27,6 +27,7 @@ export interface Divider extends Except<Partial<FieldProps>, 'type'> {
 }
 
 export type GeneratedFieldProps<T> = ExtendedFieldProps<T> & {
+  color?: string;
   classNames: Except<GeneratedFormClassNames, 'row'>
 }
 
@@ -44,21 +45,8 @@ export const GeneratedField = <T extends {}>( { classNames, ...field }: Generate
 
   if ( field.when && !isTrue( values, field.when ) ) return null;
 
-  if ( field.type === 'checkbox' ) {
-    return (
-      <div className={cx( classNames.inputGroup )}>
-        <Field
-          {...field as unknown as FieldProps}
-          classNames={classNames}
-          required={isTrue( values, field.required )}
-          name={field.name as string}
-        />
-      </div>
-    );
-  }
-
   return (
-    <div className={cx( classNames.inputGroup )} >
+    <div className={cx( classNames.inputGroup )}>
       <Field
         classNames={classNames}
         required={isTrue( values, field.required )}

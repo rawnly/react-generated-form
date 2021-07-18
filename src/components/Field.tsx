@@ -63,7 +63,9 @@ export const Field: FC<Props> = ( { classNames = {}, ...props } ) => {
     props.className
   )
 
-  const Component = isCommonField( props ) ? props.component : ( props: any ) => <input {...props} />;
+  const Component = isCommonField( props ) && props.component
+    ? inputProps => <props.component {...inputProps} />
+    : inputProps => <input {...inputProps} />
 
   return (
     <>
