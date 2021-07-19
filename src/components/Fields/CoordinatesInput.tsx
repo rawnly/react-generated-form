@@ -1,4 +1,4 @@
-import { ClassValue } from 'classnames/types';
+import { Argument } from 'classnames';
 import React, { FC } from "react";
 import GooglePlacesInput, { geocodeByPlaceId, getLatLng } from 'react-google-places-autocomplete';
 import { useFormContext } from 'react-hook-form';
@@ -6,7 +6,7 @@ import { Except } from 'type-fest';
 import { CoordsFieldProps } from '../../types';
 
 interface ICoordinatesInputProps extends Except<CoordsFieldProps, 'className'> {
-  className?: ClassValue;
+  className?: Argument;
 }
 
 const CoordinatesInput: FC<ICoordinatesInputProps> = ( {

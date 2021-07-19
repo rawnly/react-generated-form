@@ -1,11 +1,11 @@
-import { ClassValue } from 'classnames/types';
+import { Argument } from 'classnames';
 import React, { FC } from "react";
 import cx from 'classnames'
 
 interface IFieldLabelProps {
   name: string;
   label: string;
-  className: ClassValue | ClassValue[] | Record<string, boolean>
+  className: Argument
 }
 
 const FieldLabel: FC<IFieldLabelProps> = ( { name, className, label } ) => (
