@@ -21,7 +21,7 @@
   ],
   "dependencies": {
     "@buttercup/react-formatted-input": "^1.4.0",
-    "@hookform/error-message": "^0.0.5",
+    "@hookform/error-message": "^2.0.0",
     "bootstrap": "^4.6.0",
     "classnames": "^2.3.1",
     "react-google-places-autocomplete": "^3.2.3",

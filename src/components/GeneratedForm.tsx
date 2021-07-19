@@ -1,4 +1,4 @@
-import { Value as ClassValue } from 'classnames';
+import { Argument } from 'classnames';
 import React, { useContext } from 'react';
 import { GeneratedField, ExtendedFieldProps } from './GeneratedField'
 import cx from 'classnames'
@@ -8,12 +8,12 @@ export type FormStructure<T, K extends keyof T = keyof T> = ( ExtendedFieldProps
 
 export type GeneratedFormClassNames = {
   accent?: string;
-  input?: ClassValue | ClassValue[] | Record<string, boolean>;
-  inputGroup?: ClassValue | ClassValue[] | Record<string, boolean>;
-  label?: ClassValue | ClassValue[] | Record<string, boolean>;
-  hint?: ClassValue | ClassValue[] | Record<string, boolean>;
-  error?: ClassValue | ClassValue[] | Record<string, boolean>;
-  row?: ClassValue | ClassValue[] | Record<string, boolean>;
+  input?: Argument
+  inputGroup?: Argument
+  label?: Argument
+  hint?: Argument
+  error?: Argument
+  row?: Argument
 }
 
 interface Props<T> {

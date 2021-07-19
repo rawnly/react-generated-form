@@ -1,5 +1,5 @@
 import { Except } from 'type-fest'
-import { Value as ClassValue } from 'classnames'
+import { Argument } from 'classnames'
 import { CSSProperties } from 'react'
 import { ValidationRule } from 'react-hook-form';
 import { AutocompletionRequest, LatLng } from 'react-google-places-autocomplete/build/GooglePlacesAutocomplete.types';
@@ -46,9 +46,9 @@ export interface CommonFieldProps<T = any> {
 	autocomplete?: string | 'off';
 
 	// Extra classnames
-	className?: ClassValue | ClassValue[] | Record<string, boolean>;
+	className?: Argument
 
-	groupClassName?: ClassValue | ClassValue[] | Record<string, boolean>;
+	groupClassName?: Argument
 
 	// Hint under the input
 	hint?: string;
