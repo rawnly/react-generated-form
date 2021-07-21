@@ -7,6 +7,21 @@
 - [Under The Hood](#under-the-hood)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Docs](#docs)
+  - [Field Props](#field-props)
+    - [`label: string`](#label-string)
+    - [`name: string`](#name-string)
+    - [`type?: <all the standard input types> | time | coords | select | checkbox` - by default is `text`](#type-all-the-standard-input-types--time--coords--select--checkbox---by-default-is-text)
+    - [`placeholder?: string`](#placeholder-string)
+    - [`hint?: string`](#hint-string)
+    - [`noHint?: boolean`](#nohint-boolean)
+    - [`required?: boolean | string`](#required-boolean--string)
+    - [`validator: {}`](#validator-)
+    - [`when?: (fields: FormFields) => boolean`](#when-fields-formfields--boolean)
+    - [`watch?: string[]`](#watch-string)
+    - [`xs?: number`](#xs-number)
+    - [`md?: number`](#md-number)
+    - [`lg?: number`](#lg-number)
 - [Contributing](#contributing)
 
 
@@ -56,16 +71,14 @@ const formStructure : FormStructure<FormData> = [
       label: 'First Name',
       placeholder: 'John',
       required: true, // by default the error label will be `Field ${label} is required!`
-      xs: 12, // 1 input per row on mobile
-      md: 6 // 2 inputs on the same row if not mobile.
+      groupClassName: 'w-2/4'
     },
     {
       name: 'lastName',
       label: 'Last Name',
       placeholder: 'John',
-      required: true, // by default the error label will be `Field ${label} is required!`,
-      xs: 12,
-      md: 6
+      required: true,
+      groupClassName: 'w-2/4'
     },
   ],
   // Section 2, Email
@@ -76,7 +89,6 @@ const formStructure : FormStructure<FormData> = [
       placeholder: 'you@domain.me',
       required: true,
       type: 'email', // Specify input type,
-      xs: 12 // We can skip this, it's the default behaviour
     }
   ],
 
@@ -88,6 +100,7 @@ const formStructure : FormStructure<FormData> = [
       placeholder: '*********',
       hint: 'Must be 8-16 characters.', // You can also add an hint
       required: true,
+      groupClassName: 'w-2/4',
       validator: { // refer to react-hook-form API
         minLength: {
           value: 8,
@@ -97,16 +110,15 @@ const formStructure : FormStructure<FormData> = [
           value: 16,
           message: 'The password must be maximum 16 characters.'
         }
-      },
-      xs: 12,
-      md: 6
+      }
     },
     {
-      name: 'password_confirm', // with the suffix `_confirm` the form auto validates the fields, so you don't need to manually check values.
+      // with the suffix `_confirm` the generated form
+      // auto validates the fields, so you don't need to manually check values.
+      name: 'password_confirm',
       label: 'Confirm Password',
       required: true,
-      xs: 12,
-      md: 6
+      groupClassName: 'w-2/4'
     }
   ]
 
@@ -121,7 +133,9 @@ const formStructure : FormStructure<FormData> = [
     return (
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <FormProvider {...methods}>
-          <GeneratedForm<FormData> structure={formStructure}>
+          <GeneratedForm<FormData>
+            structure={formStructure}
+          />
         </FormProvider>
 
         <div className='form-group'>
@@ -135,21 +149,18 @@ const formStructure : FormStructure<FormData> = [
 
 
   {/* Later */}
-  {/* Example with bootstrap classes */}
+  {/* You can change elements classnames */}
+
   ReactDOM.render(
     <GeneratedFormConfigProvider
       value={{
-        input: 'form-control w-100',
-        inputGroup: 'd-flex flex-column mb-3',
-        label: 'mb-1',
-        error: 'text-danger',
-        hint: 'text-muted',
-        row: 'row',
-        sizeClasses: {
-          lg: 'col-lg-$',
-          md: 'col-md-$',
-          xs: 'col-sm-$'
-        }
+        accent: 'purple',
+        input: 'rounded-md shadow-sm border border-gray-300 block w-full sm:text-sm p-2',
+        inputGroup: 'w-full flex mb-2 flex-col items-start justify-start',
+        label: 'block text-sm font-medium text-gray-700 mb-1',
+        hint: 'mt-2 text-sm text-gray-500',
+        row: 'flex flex-wrap mb-3',
+        error: 'mt-2 text-sm text-red-600'
       }}
     >
       <Form />
@@ -159,7 +170,7 @@ const formStructure : FormStructure<FormData> = [
 ```
 
 
-## Docs 
+## Docs
 > (work in progress)
 ### Field Props
 #### `label: string`
@@ -191,5 +202,3 @@ Column size on desktop
 
 ## Contributing
 Feel free to contribute in any way, or just open an issue ✌️
-
-

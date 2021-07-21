@@ -6,6 +6,8 @@ import { GeneratedFormConfigContext, initialState } from '../utils/context';
 
 export type FormStructure<T, K extends keyof T = keyof T> = ( ExtendedFieldProps<T, K> )[][];
 
+
+
 export type GeneratedFormClassNames = {
   accent?: string;
   input?: Argument
