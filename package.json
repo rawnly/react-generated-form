@@ -7,7 +7,7 @@
   "scripts": {
     "prebuild": "rm -rf dist",
     "build": "rollup -c",
-    "test": "jest",
+    "test": "jest --coverage",
     "storybook": "start-storybook -p 6006"
   },
   "repository": {

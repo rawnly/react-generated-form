@@ -14,6 +14,7 @@ module.exports = {
   testMatch: ['**/?(*.)+(spec|test).ts?(x)'],
   transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$'],
   moduleFileExtensions: ['ts', 'tsx', 'js'],
+  coverageReporters: ["lcov", "text", "teamcity"],
   reporters: [
     "default",
     "jest-teamcity"
