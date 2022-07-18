@@ -121,7 +121,7 @@ const formStructure : FormStructure<FormData> = [
       groupClassName: 'w-2/4'
     }
   ]
-
+]
 
   function Form() {
     const methods = useForm<FormData>({
